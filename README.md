@@ -1,5 +1,5 @@
 # Grabber
-A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units
+A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units. Here's the [project page](https://github.com/Toolsquare-io/Grabber/projects/1).
 
 # BOM
 * [Bosch-Rexroth](https://benl.rs-online.com/web/c/engineering-materials-industrial-hardware/structural-systems/) and connections
