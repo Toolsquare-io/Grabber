@@ -11,3 +11,6 @@ A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units.
 
 # CAD
 [The Fusion model](https://a360.co/3LaAgMf)
+
+# Inspirations
+[CoreXY](http://corexy.com/theory.html)
