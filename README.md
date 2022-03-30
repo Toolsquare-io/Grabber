@@ -26,7 +26,7 @@ A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units.
 ## The game
 1. Unlock the machine using a Toolsquare unit or something else (a coin, a simple nfc reader,..)
 2. Use the joystick to positon X and Y
-3. Press a button to auto **lower the grabber, raise and dump the gaget**
+3. Press a button to auto **lower the grabber, raise and dump the gadget**
 5. Once a timout is reached the crane goes back to home and needs to be unlocked again
 
 ## BOM
