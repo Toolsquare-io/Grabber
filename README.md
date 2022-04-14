@@ -38,7 +38,7 @@ A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units.
 * [Motors](https://www.amazon.nl/gp/product/B06Y2BSCL7/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ## CAD
-[The Fusion model](https://a360.co/3LaAgMf)
+[The Fusion model](https://a360.co/3vmHt5T)
 
 ## Inspirations
 [CoreXY](http://corexy.com/theory.html)
