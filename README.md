@@ -43,3 +43,29 @@ A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units.
 ## Inspirations
 [CoreXY](http://corexy.com/theory.html)
 
+## Electronics
+
+Pinouts
+
+|  Function | Pin Number   |  
+|---|---|
+|  Stepper X |   |  
+|  Stepper Y |  |  
+|  Stepper Z  |  |   
+|  Interlock X |  |   
+|  Interlock Y  |  |   
+|  Interlock Z  |  |   
+|  JoyStick X  |  |   
+|  JoyStick Y  |  |  
+|  Button 1  |  |   
+|  Button 2  |  |   
+|  Button 1 LED  |  |
+|  Button 2 LED  |  |   
+|  NeoPixel  |  |   
+|  Running Out  |  | 
+|  Machine Lock  |  |   
+|  Magnet Relais  |  |   
+
+
+
+
