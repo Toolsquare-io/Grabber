@@ -1,9 +1,8 @@
-#include <Arduino.h>
-#include "CNCShield.h"
+#include <CNCShield.h>
 
-#define NO_OF_STEPS               2000
+#define NO_OF_STEPS               200
 #define SLEEP_BETWEEN_STEPS_MS    10
-#define SPEED_STEPS_PER_SECOND    1000
+#define SPEED_STEPS_PER_SECOND    100
 
 /*
  * Create a CNCShield object and get a pointer to motor 0 (X axis).
@@ -11,17 +10,9 @@
 CNCShield cnc_shield;
 StepperMotor *motor = cnc_shield.get_motor(0);
 
-#define LEDPIN 13
-
-void blink();
-
 void setup()
 {
-  Serial.begin(115200);
-  Serial.println("starting");
-  pinMode(LEDPIN, OUTPUT);
-
-   /*
+  /*
    * Calling CNCShield.begin() is mandatory before using any motor.
    */
   cnc_shield.begin();
@@ -31,8 +22,9 @@ void setup()
    */
   cnc_shield.enable();
 
-  
-   
+  /*
+   * Step in a previously set direction.
+   */
   motor->set_dir(CLOCKWISE);
   for (int i = 0; i < NO_OF_STEPS; i++) {
     motor->step();
@@ -44,11 +36,10 @@ void setup()
     motor->step();
     delay(SLEEP_BETWEEN_STEPS_MS);
   }
-   
+
   /*
    * Step in a direction.
    */
-/*
   for (int i = 0; i < NO_OF_STEPS; i++) {
     motor->step(CLOCKWISE);
     delay(SLEEP_BETWEEN_STEPS_MS);
@@ -58,8 +49,7 @@ void setup()
     motor->step(COUNTER);
     delay(SLEEP_BETWEEN_STEPS_MS);
   }
-  
- */
+
   /*
    *  Step a number of steps in a previously set direction
    *   with a previously set speed.
@@ -87,28 +77,5 @@ void setup()
 
 void loop()
 {
-  blink();
-}
-
-unsigned long blinktimer = 0;
-unsigned long blinktimeout = 500;
-bool ledstate = false;
-
-void blink()
-{
-  if ((millis() - blinktimer) >= blinktimeout)
-  {
-    blinktimer = millis();
-    ledstate = !ledstate;
-    if (ledstate)
-    {
-      digitalWrite(LEDPIN, HIGH);
-      Serial.println("High");
-    }
-    else
-    {
-      digitalWrite(LEDPIN, LOW);
-      Serial.println("Low");
-    }
-  }
+  // put your main code here, to run repeatedly:
 }
