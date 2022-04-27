@@ -30,6 +30,7 @@ A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units.
 5. Once a timout is reached the crane goes back to home and needs to be unlocked again
 
 ## BOM
+The full [BOM](https://docs.google.com/spreadsheets/d/1Js6a-A9pP3j60k_G_hthX2zwbCBgAsaMytp7D8mz5XA/edit?usp=sharing)
 * [Bosch-Rexroth](https://benl.rs-online.com/web/c/engineering-materials-industrial-hardware/structural-systems/) and connections
 * [Optional Neopixels](https://www.adafruit.com/product/1138?length=1)
 * ESP32
