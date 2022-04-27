@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include "CNCShield.h"
+#include "machineinputs.h"
 
-#define NO_OF_STEPS               2000
-#define SLEEP_BETWEEN_STEPS_MS    10
+#define NO_OF_STEPS               200
+#define SLEEP_BETWEEN_STEPS_MS    1
 #define SPEED_STEPS_PER_SECOND    1000
 
 /*
@@ -13,6 +14,8 @@ StepperMotor *motor = cnc_shield.get_motor(0);
 
 #define LEDPIN 13
 
+machineInputs theInput;
+
 void blink();
 
 void setup()
@@ -20,6 +23,8 @@ void setup()
   Serial.begin(115200);
   Serial.println("starting");
   pinMode(LEDPIN, OUTPUT);
+  theInput.initialize();
+
 
    /*
    * Calling CNCShield.begin() is mandatory before using any motor.
@@ -82,11 +87,12 @@ void setup()
   /*
    * Disable the shield (set enable pin to HIGH).
    */
-  cnc_shield.disable();
+  //cnc_shield.disable();
 }
 
 void loop()
 {
+  theInput.run();
   blink();
 }
 
@@ -111,4 +117,4 @@ void blink()
       Serial.println("Low");
     }
   }
-}
+};
