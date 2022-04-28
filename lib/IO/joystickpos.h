@@ -10,5 +10,6 @@ enum class joystickPositions {
     Yplus,
     Yminus,
     Zplus,
-    Zminus
+    Zminus,
+    Locked
 };

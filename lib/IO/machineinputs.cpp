@@ -10,6 +10,7 @@ void machineInputs::initialize() {
     pinMode(JoyStickYNegPin, INPUT_PULLUP);
     pinMode(JoyStickYPosPin, INPUT_PULLUP);
     pinMode(ZButtonPin, INPUT_PULLUP);
+    pinMode(LockPin, INPUT_PULLUP);
 };
 
 void machineInputs::run() {
@@ -18,10 +19,13 @@ void machineInputs::run() {
     int YPos    = digitalRead(JoyStickYPosPin);
     int YNeg    = digitalRead(JoyStickYNegPin);
     int ZActive = digitalRead(ZButtonPin);
+    int Locked  = digitalRead(LockPin);
 
-    joystickPositions nextPos = joystickPositions::neutral;
+  joystickPositions nextPos = joystickPositions::neutral;
 
-    if (XPos == LOW) {
+    if (Locked == LOW) {
+        nextPos = joystickPositions::Locked;
+    }else if (XPos == LOW) {
         nextPos = joystickPositions::Xplus;
     } else if (XNeg == LOW) {
         nextPos = joystickPositions::Xminus;
