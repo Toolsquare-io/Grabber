@@ -69,6 +69,7 @@ void machineInputs::run() {
                 break;
         }
         theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
+        thePosition=nextPos;
     }
 };
 
