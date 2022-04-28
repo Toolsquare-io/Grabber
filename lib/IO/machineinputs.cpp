@@ -10,6 +10,7 @@ void machineInputs::initialize() {
     pinMode(JoyStickYNegPin, INPUT_PULLUP);
     pinMode(JoyStickYPosPin, INPUT_PULLUP);
     pinMode(ZButtonPin, INPUT_PULLUP);
+    pinMode(LockPin, INPUT_PULLUP);
 };
 
 void machineInputs::run() {
@@ -18,10 +19,12 @@ void machineInputs::run() {
     int YPos    = digitalRead(JoyStickYPosPin);
     int YNeg    = digitalRead(JoyStickYNegPin);
     int ZActive = digitalRead(ZButtonPin);
+    int Locked  = digitalRead(LockPin);
 
     joystickPositions nextPos;
-
-    if (XPos) {
+    if (Locked == LOW) {
+        nextPos = joystickPositions::Locked;
+    } else if (XPos) {
         nextPos = joystickPositions::Xplus;
     } else if (XNeg) {
         nextPos = joystickPositions::Xminus;
@@ -65,7 +68,7 @@ void machineInputs::run() {
                 break;
 
             default:
-            theLog.output(subSystem::general, loggingLevel::Error, "unknown joystick state");
+                theLog.output(subSystem::general, loggingLevel::Error, "unknown joystick state");
                 break;
         }
         theLog.output(subSystem::general, loggingLevel::Info, stateTxt);

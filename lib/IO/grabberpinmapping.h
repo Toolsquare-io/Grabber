@@ -4,3 +4,4 @@
 #define JoyStickYPosPin 5
 #define JoyStickYNegPin 6
 #define ZButtonPin 7
+#define LockPin 8
