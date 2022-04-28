@@ -11,6 +11,7 @@ void machineInputs::initialize() {
     pinMode(JoyStickYPosPin, INPUT_PULLUP);
     pinMode(ZButtonPin, INPUT_PULLUP);
     pinMode(LockPin, INPUT_PULLUP);
+    pinMode(GrabButtonPin, INPUT_PULLUP);
 };
 
 void machineInputs::run() {
@@ -20,12 +21,13 @@ void machineInputs::run() {
     int YNeg    = digitalRead(JoyStickYNegPin);
     int ZActive = digitalRead(ZButtonPin);
     int Locked  = digitalRead(LockPin);
+    int Grab    = digitalRead(GrabButtonPin);
 
-  joystickPositions nextPos = joystickPositions::neutral;
+    joystickPositions nextPos = joystickPositions::neutral;
 
     if (Locked == LOW) {
-        nextPos = joystickPositions::Locked;
-    }else if (XPos == LOW) {
+        nextPos = joystickPositions::locked;
+    } else if (XPos == LOW) {
         nextPos = joystickPositions::Xplus;
     } else if (XNeg == LOW) {
         nextPos = joystickPositions::Xminus;
@@ -43,10 +45,22 @@ void machineInputs::run() {
         }
     }
 
-    // only for printing
+    // the grab button
+    int Grabbuttonstate = digitalRead(GrabButtonPin);
+    bool nextGrabState  = false;
+    if (Grabbuttonstate == LOW) {
+        nextGrabState = true;
+    } else {
+        nextGrabState = false;
+    }
+
+    // output
     if (nextPos != thePosition) {
         char stateTxt[8];
         switch (nextPos) {
+            case joystickPositions::locked:
+                strcpy(stateTxt, "locked");
+                break;
             case joystickPositions::neutral:
                 strcpy(stateTxt, "neutral");
                 break;
@@ -74,10 +88,23 @@ void machineInputs::run() {
                 break;
         }
         theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
-        thePosition = nextPos;
+        thePosition = nextPos;        // the switch!
+    }
+
+    if (nextGrabState != theGrabState) {
+        if (nextGrabState == true) {
+            theLog.output(subSystem::general, loggingLevel::Info, "grab activated");
+        } else {
+            theLog.output(subSystem::general, loggingLevel::Info, "grab released");
+        }
+        theGrabState = nextGrabState;
     }
 };
 
 joystickPositions machineInputs::getPosition() {
     return thePosition;
+};
+
+bool machineInputs::grabState() {
+    return theGrabState;
 };

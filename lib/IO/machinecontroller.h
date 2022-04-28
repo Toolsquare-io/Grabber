@@ -11,9 +11,13 @@ class machinecontroller {
     void run();
 
   private:
-    /*
-     * Create a CNCShield object and get a pointer to motor 0 (X axis).
-     */
+    void moveX(int dir);
+    void moveY(int dir);
+    void moveZ(int dir);
+    void stop();
+    void grab();
     CNCShield cnc_shield;
     StepperMotor *motor1;
+    StepperMotor *motor2;
+    StepperMotor *motorZ;
 };

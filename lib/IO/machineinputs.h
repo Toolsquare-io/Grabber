@@ -5,10 +5,12 @@
 
 class machineInputs {
   public:
-  void initialize();
-  void run();
-  joystickPositions getPosition();
+    void initialize();
+    void run();
+    joystickPositions getPosition();
+    bool grabState();
 
   private:
-  joystickPositions thePosition=joystickPositions::neutral;
+    joystickPositions thePosition = joystickPositions::neutral;
+    bool theGrabState             = false;
 };

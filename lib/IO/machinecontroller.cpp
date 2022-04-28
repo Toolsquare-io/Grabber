@@ -1,20 +1,35 @@
 #include "machinecontroller.h"
 #include <Arduino.h>
+#include "machineinputs.h"
+#include "logging.h"
+
+extern uLog theLog;
+extern machineInputs theInput;
 
 void machinecontroller::initialize(/* args */) {
     motor1 = cnc_shield.get_motor(0);
-    /*
-     * Calling CNCShield.begin() is mandatory before using any motor1.
-     */
+    motor2 = cnc_shield.get_motor(1);
+    motorZ = cnc_shield.get_motor(2);
+
+    // Calling CNCShield.begin() is mandatory before using any motor.
     cnc_shield.begin();
 
-    /*
-     * Enable the shield (set enable pin to LOW).
-     */
+    // Enable the shield (set enable pin to LOW).
     cnc_shield.enable();
 };
 
 void machinecontroller::run() {
+    joystickPositions theState = theInput.getPosition();
+
+    switch (theState) {
+        case joystickPositions::locked:
+stop();
+            break;
+
+        default:
+            break;
+    }
+
     motor1->set_dir(CLOCKWISE);
     for (int i = 0; i < NO_OF_STEPS; i++) {
         motor1->step();
@@ -65,4 +80,20 @@ void machinecontroller::run() {
      * Disable the shield (set enable pin to HIGH).
      */
     // cnc_shield.disable();
+};
+
+void machinecontroller::moveX(int dir){
+
+};
+
+void machinecontroller::moveY(int dir){
+
+};
+
+void machinecontroller::moveZ(int dir){
+
+};
+
+void machinecontroller::grab() {
+
 };

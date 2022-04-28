@@ -1,7 +1,4 @@
 #pragma once
-#include <Arduino.h>
-
-
 
 enum class joystickPositions {
     neutral,
@@ -11,5 +8,5 @@ enum class joystickPositions {
     Yminus,
     Zplus,
     Zminus,
-    Locked
+    locked
 };
