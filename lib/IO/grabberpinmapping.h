@@ -1,6 +1,6 @@
 #pragma once
-#define JoyStickXPosPin 3
-#define JoyStickXNegPin 4
-#define JoyStickYPosPin 5
-#define JoyStickYNegPin 6
-#define ZButtonPin 7
+#define JoyStickXPosPin 4
+#define JoyStickXNegPin 5
+#define JoyStickYPosPin 6
+#define JoyStickYNegPin 7
+#define ZButtonPin 8

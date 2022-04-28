@@ -36,8 +36,8 @@ void setup() {
     
     pinMode(LEDPIN, OUTPUT);
     theInput.initialize();
-    theMachine.initialize();
-    theMachine.run();
+    //theMachine.initialize();
+    //theMachine.run();
 }
 
 void loop() {

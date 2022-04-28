@@ -10,5 +10,5 @@ class machineInputs {
   joystickPositions getPosition();
 
   private:
-  joystickPositions thePosition;
+  joystickPositions thePosition=joystickPositions::neutral;
 };
