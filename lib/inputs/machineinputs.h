@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include "joystickpos.h"
-
+#include "grabberpinmapping.h"
 
 class machineInputs {
   public:
