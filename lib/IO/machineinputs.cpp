@@ -19,29 +19,27 @@ void machineInputs::run() {
     int YNeg    = digitalRead(JoyStickYNegPin);
     int ZActive = digitalRead(ZButtonPin);
 
-    joystickPositions nextPos;
+    joystickPositions nextPos = joystickPositions::neutral;
 
-    if (XPos) {
+    if (XPos == LOW) {
         nextPos = joystickPositions::Xplus;
-    } else if (XNeg) {
+    } else if (XNeg == LOW) {
         nextPos = joystickPositions::Xminus;
-    } else if (YPos) {
-        if (ZActive) {
+    } else if (YPos == LOW) {
+        if (ZActive == LOW) {
             nextPos = joystickPositions::Zplus;
         } else {
             nextPos = joystickPositions::Yplus;
         }
-
-    } else if (YNeg) {
-        if (ZActive) {
+    } else if (YNeg == LOW) {
+        if (ZActive == LOW) {
             nextPos = joystickPositions::Zminus;
         } else {
             nextPos = joystickPositions::Yminus;
         }
-    } else {
-        nextPos = joystickPositions::neutral;
     }
 
+    // only for printing
     if (nextPos != thePosition) {
         char stateTxt[8];
         switch (nextPos) {
@@ -57,6 +55,9 @@ void machineInputs::run() {
             case joystickPositions::Yminus:
                 strcpy(stateTxt, "y-");
                 break;
+            case joystickPositions::Yplus:
+                strcpy(stateTxt, "y+");
+                break;
             case joystickPositions::Zminus:
                 strcpy(stateTxt, "z-");
                 break;
@@ -65,10 +66,11 @@ void machineInputs::run() {
                 break;
 
             default:
-            theLog.output(subSystem::general, loggingLevel::Error, "unknown joystick state");
+                theLog.output(subSystem::general, loggingLevel::Error, "unknown joystick state");
                 break;
         }
         theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
+        thePosition = nextPos;
     }
 };
 
