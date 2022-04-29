@@ -1,13 +1,16 @@
 #include <Arduino.h>
 #include "machineinputs.h"
-#include "machinecontroller.h"
+#include "pinmapping.h"
 #include "logging.h"
+#include "steppercontroller.h"
 
 #define LEDPIN 13
 
 uLog theLog;
+
 machineInputs theInput;
-machinecontroller theMachine;
+pinmapping thePins;
+steppercontroller theController;
 
 void blink();
 
@@ -28,7 +31,7 @@ bool loggingTime(char* contents, uint32_t length) {        // Step 4. Add a func
 
 void setup() {
     theLog.setColoredOutput(0U,true);                                    // enable colored output - remember to set 'monitor_flags = --raw' in platformio.ini    theLog.output(subSystem::general, loggingLevel::Error, "This is an error");           //
-    Serial.begin(9600);
+    Serial.begin(112500);
     theLog.setOutput(0U,outputToSerial);
     theLog.outputIsActive(true);
     theLog.setLoggingLevel(0U, subSystem::general,loggingLevel::Debug);
@@ -36,12 +39,12 @@ void setup() {
     
     pinMode(LEDPIN, OUTPUT);
     theInput.initialize();
-    //theMachine.initialize();
-    //theMachine.run();
+    theController.setup();
 }
 
 void loop() {
     theInput.run();
+    theController.run(theInput.getPosition());
     blink();
 }
 

@@ -1,27 +1,29 @@
 #include "machineinputs.h"
 #include "joystickpos.h"
+#include "pinmapping.h"
 #include "logging.h"
 
 extern uLog theLog;
+extern pinmapping thePins;
 
 void machineInputs::initialize() {
-    pinMode(JoyStickXNegPin, INPUT_PULLUP);
-    pinMode(JoyStickXPosPin, INPUT_PULLUP);
-    pinMode(JoyStickYNegPin, INPUT_PULLUP);
-    pinMode(JoyStickYPosPin, INPUT_PULLUP);
-    pinMode(ZButtonPin, INPUT_PULLUP);
-    pinMode(LockPin, INPUT_PULLUP);
-    pinMode(GrabButtonPin, INPUT_PULLUP);
+    pinMode(thePins.JoyStickXNegPin, INPUT_PULLUP);
+    pinMode(thePins.JoyStickXPosPin, INPUT_PULLUP);
+    pinMode(thePins.JoyStickYNegPin, INPUT_PULLUP);
+    pinMode(thePins.JoyStickYPosPin, INPUT_PULLUP);
+    pinMode(thePins.ZButtonPin, INPUT_PULLUP);
+    pinMode(thePins.LockPin, INPUT_PULLUP);
+    pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
 };
 
 void machineInputs::run() {
-    int XPos    = digitalRead(JoyStickXPosPin);
-    int XNeg    = digitalRead(JoyStickXNegPin);
-    int YPos    = digitalRead(JoyStickYPosPin);
-    int YNeg    = digitalRead(JoyStickYNegPin);
-    int ZActive = digitalRead(ZButtonPin);
-    int Locked  = digitalRead(LockPin);
-    int Grab    = digitalRead(GrabButtonPin);
+    int XPos    = digitalRead(thePins.JoyStickXPosPin);
+    int XNeg    = digitalRead(thePins.JoyStickXNegPin);
+    int YPos    = digitalRead(thePins.JoyStickYPosPin);
+    int YNeg    = digitalRead(thePins.JoyStickYNegPin);
+    int ZActive = digitalRead(thePins.ZButtonPin);
+    int Locked  = digitalRead(thePins.LockPin);
+    int Grab    = digitalRead(thePins.GrabButtonPin);
 
     joystickPositions nextPos = joystickPositions::neutral;
 
@@ -46,7 +48,7 @@ void machineInputs::run() {
     }
 
     // the grab button
-    int Grabbuttonstate = digitalRead(GrabButtonPin);
+    int Grabbuttonstate = digitalRead(thePins.GrabButtonPin);
     bool nextGrabState  = false;
     if (Grabbuttonstate == LOW) {
         nextGrabState = true;
