@@ -44,6 +44,8 @@ The full [BOM](https://docs.google.com/spreadsheets/d/1Js6a-A9pP3j60k_G_hthX2zwb
 ## Inspirations
 [CoreXY](http://corexy.com/theory.html)
 
+![CoreXY Math](http://corexy.com/reference.png)
+
 ## Electronics
 
 Pinouts
