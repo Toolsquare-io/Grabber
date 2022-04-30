@@ -15,6 +15,6 @@ class steppercontroller {
     joystickPositions thePosition = joystickPositions::locked;
     void coreStep();
     void zStep();
-    unsigned long stepperInterval = 100;
-    unsigned long stepperTimer    = 0;
+    unsigned long stepperInterval = 1;
+    unsigned long stepperTimer    ;
 };

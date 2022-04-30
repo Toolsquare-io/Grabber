@@ -29,8 +29,8 @@ void steppercontroller::run(joystickPositions newPosition) {
         changeState();
     }
 
-    if (millis() - stepperInterval >= stepperTimer) {
-        stepperInterval = millis();
+    if (millis() - stepperTimer >= stepperInterval) {
+        stepperTimer = millis();
 
         switch (thePosition) {
             case joystickPositions::locked:
@@ -55,7 +55,7 @@ void steppercontroller::coreStep() {
     //theLog.output(subSystem::general,loggingLevel::Debug,"core step");
     digitalWrite(thePins.M1_STP_PIN, HIGH);
     digitalWrite(thePins.M2_STP_PIN, HIGH);
-    delay(10);
+    delay(1);
     digitalWrite(thePins.M1_STP_PIN, LOW);
     digitalWrite(thePins.M2_STP_PIN, LOW);
 }
