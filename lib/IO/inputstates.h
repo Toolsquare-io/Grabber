@@ -1,6 +1,6 @@
 #pragma once
 
-enum class joystickPositions {
+enum class inputStates {
     neutral,
     Xplus,
     Xminus,

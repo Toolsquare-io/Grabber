@@ -1,5 +1,5 @@
 #pragma once
-#include "joystickpos.h"
+#include "inputstates.h"
 #include "machineinputs.h"
 
 extern machineInputs theInput;
@@ -8,13 +8,21 @@ class steppercontroller {
   public:
     steppercontroller();
     void setup();
-    void run(joystickPositions newPosition);
+    void run(inputStates newPosition);
 
   private:
     void changeState();
-    joystickPositions thePosition = joystickPositions::locked;
+    void checklimits();
+    inputStates thePosition = inputStates::locked;
     void coreStep();
     void zStep();
     unsigned long stepperInterval = 1;
-    unsigned long stepperTimer    ;
+    unsigned long stepperTimer;
+
+    byte xpluslimitState;
+    byte xminlimitState;
+    byte ypluslimitState;
+    byte yminlimitState;
+    byte zpluslimitState;
+    byte zminlimitState;
 };
