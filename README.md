@@ -48,6 +48,8 @@ The full [BOM](https://docs.google.com/spreadsheets/d/1Js6a-A9pP3j60k_G_hthX2zwb
 
 Pinouts
 
+![CNCShield](https://blog.protoneer.co.nz/wp-content/uploads/2013/07/Arduino-CNC-Shield-Schematics.png "pinmapping")
+
 |  Function | Pin Number   |  
 |---|---|
 |  Stepper X |   |  
