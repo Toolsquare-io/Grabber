@@ -30,13 +30,14 @@ bool loggingTime(char* contents, uint32_t length) {        // Step 4. Add a func
 }
 
 void setup() {
-    theLog.setColoredOutput(0U,true);                                    // enable colored output - remember to set 'monitor_flags = --raw' in platformio.ini    theLog.output(subSystem::general, loggingLevel::Error, "This is an error");           //
+    theLog.setColoredOutput(0U, true);        // enable colored output - remember to set 'monitor_flags = --raw' in platformio.ini    theLog.output(subSystem::general, loggingLevel::Error, "This is an error");           //
     Serial.begin(112500);
-    theLog.setOutput(0U,outputToSerial);
+    theLog.setOutput(0U, outputToSerial);
     theLog.outputIsActive(true);
-    theLog.setLoggingLevel(0U, subSystem::general,loggingLevel::Debug);
-    theLog.output(subSystem::general, loggingLevel::Info, "starting");           //
-    
+    theLog.setLoggingLevel(0U, subSystem::general, loggingLevel::Debug);
+    theLog.setLoggingLevel(0U, subSystem::stepper, loggingLevel::Debug);
+    theLog.output(subSystem::general, loggingLevel::Info, "starting");        //
+
     pinMode(LEDPIN, OUTPUT);
     theInput.initialize();
     theController.setup();
@@ -58,11 +59,11 @@ void blink() {
         ledstate   = !ledstate;
         if (ledstate) {
             digitalWrite(LEDPIN, HIGH);
-            //theLog.output(subSystem::general, loggingLevel::Warning, "high");
-            //Serial.println("High");
+            // theLog.output(subSystem::general, loggingLevel::Warning, "high");
+            // Serial.println("High");
         } else {
             digitalWrite(LEDPIN, LOW);
-            //Serial.println("Low");
+            // Serial.println("Low");
         }
     }
 };

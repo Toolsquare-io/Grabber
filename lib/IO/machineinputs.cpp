@@ -1,5 +1,4 @@
 #include "machineinputs.h"
-#include "joystickpos.h"
 #include "pinmapping.h"
 #include "logging.h"
 
@@ -25,25 +24,25 @@ void machineInputs::run() {
     int Locked  = digitalRead(thePins.LockPin);
     int Grab    = digitalRead(thePins.GrabButtonPin);
 
-    joystickPositions nextPos = joystickPositions::neutral;
+    inputStates nextPos = inputStates::neutral;
 
     if (Locked == LOW) {
-        nextPos = joystickPositions::locked;
+        nextPos = inputStates::locked;
     } else if (XPos == LOW) {
-        nextPos = joystickPositions::Xplus;
+        nextPos = inputStates::Xplus;
     } else if (XNeg == LOW) {
-        nextPos = joystickPositions::Xminus;
+        nextPos = inputStates::Xminus;
     } else if (YPos == LOW) {
         if (ZActive == LOW) {
-            nextPos = joystickPositions::Zplus;
+            nextPos = inputStates::Zplus;
         } else {
-            nextPos = joystickPositions::Yplus;
+            nextPos = inputStates::Yplus;
         }
     } else if (YNeg == LOW) {
         if (ZActive == LOW) {
-            nextPos = joystickPositions::Zminus;
+            nextPos = inputStates::Zminus;
         } else {
-            nextPos = joystickPositions::Yminus;
+            nextPos = inputStates::Yminus;
         }
     }
 
@@ -60,28 +59,28 @@ void machineInputs::run() {
     if (nextPos != thePosition) {
         char stateTxt[8];
         switch (nextPos) {
-            case joystickPositions::locked:
+            case inputStates::locked:
                 strcpy(stateTxt, "locked");
                 break;
-            case joystickPositions::neutral:
+            case inputStates::neutral:
                 strcpy(stateTxt, "neutral");
                 break;
-            case joystickPositions::Xminus:
+            case inputStates::Xminus:
                 strcpy(stateTxt, "x-");
                 break;
-            case joystickPositions::Xplus:
+            case inputStates::Xplus:
                 strcpy(stateTxt, "x+");
                 break;
-            case joystickPositions::Yminus:
+            case inputStates::Yminus:
                 strcpy(stateTxt, "y-");
                 break;
-            case joystickPositions::Yplus:
+            case inputStates::Yplus:
                 strcpy(stateTxt, "y+");
                 break;
-            case joystickPositions::Zminus:
+            case inputStates::Zminus:
                 strcpy(stateTxt, "z-");
                 break;
-            case joystickPositions::Zplus:
+            case inputStates::Zplus:
                 strcpy(stateTxt, "z+");
                 break;
 
@@ -103,7 +102,7 @@ void machineInputs::run() {
     }
 };
 
-joystickPositions machineInputs::getPosition() {
+inputStates machineInputs::getPosition() {
     return thePosition;
 };
 

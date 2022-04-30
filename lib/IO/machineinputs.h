@@ -1,16 +1,16 @@
 #pragma once
 #include <Arduino.h>
-#include "joystickpos.h"
+#include "inputstates.h"
 
 
 class machineInputs {
   public:
     void initialize();
     void run();
-    joystickPositions getPosition();
+    inputStates getPosition();
     bool grabState();
 
   private:
-    joystickPositions thePosition = joystickPositions::neutral;
+    inputStates thePosition = inputStates::neutral;
     bool theGrabState             = false;
 };
