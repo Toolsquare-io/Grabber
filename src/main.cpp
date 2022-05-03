@@ -46,5 +46,5 @@ void setup() {
 void loop() {
     theInput.run();
     theController.run(theInput.getPosition());
-    theLeds.run(theInput.getPosition());
+
 }
