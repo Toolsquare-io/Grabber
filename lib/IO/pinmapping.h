@@ -26,10 +26,9 @@ class pinmapping {
     int x_min_limitpin = 10;
     int y_plus_limitpin = 11;
     int y_min_limitpin = 12;
-
     // TODO add zpins
 
-
-
+    //other
+    int led_datapin = 21;
 
 };

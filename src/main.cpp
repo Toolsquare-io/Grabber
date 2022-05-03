@@ -3,14 +3,14 @@
 #include "pinmapping.h"
 #include "logging.h"
 #include "steppercontroller.h"
-
-#define LEDPIN 13
+#include "ledmadness.h"
 
 uLog theLog;
 
 machineInputs theInput;
 pinmapping thePins;
 steppercontroller theController;
+ledmadness theLeds;
 
 void blink();
 
@@ -38,32 +38,13 @@ void setup() {
     theLog.setLoggingLevel(0U, subSystem::stepper, loggingLevel::Debug);
     theLog.output(subSystem::general, loggingLevel::Info, "starting");        //
 
-    pinMode(LEDPIN, OUTPUT);
     theInput.initialize();
     theController.setup();
+    theLeds.setup();
 }
 
 void loop() {
     theInput.run();
     theController.run(theInput.getPosition());
-    blink();
+    theLeds.run(theInput.getPosition());
 }
-
-unsigned long blinktimer   = 0;
-unsigned long blinktimeout = 500;
-bool ledstate              = false;
-
-void blink() {
-    if ((millis() - blinktimer) >= blinktimeout) {
-        blinktimer = millis();
-        ledstate   = !ledstate;
-        if (ledstate) {
-            digitalWrite(LEDPIN, HIGH);
-            // theLog.output(subSystem::general, loggingLevel::Warning, "high");
-            // Serial.println("High");
-        } else {
-            digitalWrite(LEDPIN, LOW);
-            // Serial.println("Low");
-        }
-    }
-};

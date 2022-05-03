@@ -2,6 +2,10 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"name": "WS2813 test",
+			"path": "../../../Documents/PlatformIO/Projects/WS2813 test"
 		}
 	],
 	"settings": {}
