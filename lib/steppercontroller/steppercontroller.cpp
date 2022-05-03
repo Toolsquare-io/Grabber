@@ -14,12 +14,14 @@ void steppercontroller::setup() {
     M2.setPins(thePins.M2_STP_PIN, thePins.M2_DIR_PIN);
     MZ.setPins(thePins.Z_STP_PIN, thePins.Z_DIR_PIN);
 
-    digitalWrite(thePins.SHIELD_EN_PIN, LOW);
 
     pinMode(thePins.x_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
     pinMode(thePins.y_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
+
+    pinMode(thePins.SHIELD_EN_PIN,OUTPUT);
+    digitalWrite(thePins.SHIELD_EN_PIN, LOW);
 
     theLog.output(subSystem::stepper, loggingLevel::Info, "stepper setup done");
 }
