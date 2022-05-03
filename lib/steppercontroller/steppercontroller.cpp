@@ -21,7 +21,7 @@ void steppercontroller::setup() {
     pinMode(thePins.y_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
 
-    theLog.output(subSystem::stepper, loggingLevel::Info, "Stepper setup done");
+    theLog.output(subSystem::stepper, loggingLevel::Info, "stepper setup done");
 }
 
 void steppercontroller::run(inputStates newPosition) {
@@ -34,6 +34,7 @@ void steppercontroller::run(inputStates newPosition) {
 
     if (millis() - stepperTimer >= stepperInterval) {
         stepperTimer = millis();
+        limitwarnings newWarning;
 
         switch (thePosition) {
             case inputStates::locked:
@@ -42,28 +43,40 @@ void steppercontroller::run(inputStates newPosition) {
                 if (xminlimitState) {
                     M1.step();
                     M2.step();
+                } else {
+                    newWarning = limitwarnings::xmin;
                 }
+
                 break;
 
             case inputStates::Xplus:
                 if (xpluslimitState) {
                     M1.step();
                     M2.step();
+                } else {
+                    newWarning = limitwarnings::xplus;
                 }
+
                 break;
 
             case inputStates::Yminus:
                 if (yminlimitState) {
                     M1.step();
                     M2.step();
+                } else {
+                    newWarning = limitwarnings::ymin;
                 }
+
                 break;
 
             case inputStates::Yplus:
                 if (ypluslimitState) {
                     M1.step();
                     M2.step();
+                } else {
+                    newWarning = limitwarnings::yplus;
                 }
+
                 break;
 
             case inputStates::Zminus:        // TODO add z limits
@@ -72,6 +85,10 @@ void steppercontroller::run(inputStates newPosition) {
                 break;
             default:
                 break;
+        }
+        if (thewarning != newWarning) {
+            thewarning=newWarning;
+            printWarning();
         }
     }
 }
@@ -92,19 +109,56 @@ void steppercontroller::checklimits() {
     }
     if (new_xpluslimit != xpluslimitState) {
         xpluslimitState = new_xpluslimit;
-        theLog.snprintf(subSystem::stepper, loggingLevel::Warning, "xplus limitstate %c ", xpluslimitState);
+        if (xpluslimitState) {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "xplus limitstate is HIGH");
+        } else {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "xplus limitstate is LOW");
+        }
     }
-
     if (new_yminlimit != yminlimitState) {
         yminlimitState = new_yminlimit;
-        theLog.output(subSystem::stepper, loggingLevel::Warning, "ymin limitstate");
+        if (yminlimitState) {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "ymin limitstate is HIGH");
+        } else {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "ymin limitstate is LOW");
+        }
     }
     if (new_ypluslimit != ypluslimitState) {
         ypluslimitState = new_ypluslimit;
-        theLog.output(subSystem::stepper, loggingLevel::Warning, "yplus limitstate");
+        if (ypluslimitState) {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "yplus limitstate is HIGH");
+        } else {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "yplus limitstate is LOW");
+        }
     }
 
     // TODO add z limits
+}
+
+void steppercontroller::printWarning() {
+    switch (thewarning) {
+        case limitwarnings::xmin:
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "can't move in xmin");
+            break;
+        case limitwarnings::xplus:
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "can't move in xplus");
+            break;
+        case limitwarnings::ymin:
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "can't move in ymin");
+            break;
+        case limitwarnings::yplus:
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "can't move in yplus");
+            break;
+        case limitwarnings::zmin:
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "can't move in zmin");
+            break;
+        case limitwarnings::zplus:
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "can't move in zplus");
+            break;
+
+        default:
+            break;
+    }
 }
 
 void steppercontroller::changeState() {
