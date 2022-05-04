@@ -28,9 +28,13 @@ void stepper::setDir(direction dir) {
 }
 
 void stepper::step() {
-    digitalWrite(pulsePin, HIGH);
-    delay(1);
-    digitalWrite(pulsePin, LOW);
+    if (pulsestate) {
+        pulsestate = LOW;
+    } else {
+        pulsestate = HIGH;
+    }
+
+    digitalWrite(pulsePin, pulsestate);
 }
 
 long stepper::getDelta() {

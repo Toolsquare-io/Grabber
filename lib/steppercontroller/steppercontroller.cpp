@@ -36,7 +36,7 @@ void steppercontroller::run(inputStates newPosition) {
         changeState();
     }
 
-     theLeds.run(theInput.getPosition());
+     //theLeds.run(theInput.getPosition());
 
     if (millis() - stepperTimer >= stepperInterval) {
         stepperTimer = millis();
