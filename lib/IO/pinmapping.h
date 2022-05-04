@@ -3,6 +3,9 @@
 #pragma once
 
 class pinmapping {
+
+  //ESP32 has 21 pins
+  
   public:
     // inputs
     int JoyStickXPosPin = 14;
