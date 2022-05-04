@@ -20,14 +20,17 @@ void ledmadness::run(inputStates inputState) {
     if (inputState != theState) {
         changeState(inputState);
     }
+    if (inputState == inputStates::neutral) {
+        /* code */
 
-    static uint8_t startIndex = 0;
-    startIndex                = startIndex + 1; /* motion speed */
+        static uint8_t startIndex = 0;
+        startIndex                = startIndex + 1; /* motion speed */
 
-    FillLEDsFromPaletteColors(startIndex);
+        FillLEDsFromPaletteColors(startIndex);
 
-    FastLED.show();
-    FastLED.delay(1000 / updatesPerSecond);
+        FastLED.show();
+        FastLED.delay(1000 / updatesPerSecond);
+    }
 }
 
 void ledmadness::FillLEDsFromPaletteColors(uint8_t colorIndex) {
@@ -52,7 +55,7 @@ void ledmadness::changeState(inputStates newState) {
             currentPalette  = LavaColors_p;
             currentBlending = LINEARBLEND;
             break;
-            
+
         case inputStates::Xminus:
         case inputStates::Xplus:
         case inputStates::Yminus:

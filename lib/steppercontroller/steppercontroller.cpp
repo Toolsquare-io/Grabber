@@ -2,9 +2,11 @@
 #include "pinmapping.h"
 #include "logging.h"
 #include <Arduino.h>
+#include "ledmadness.h"
 
 extern pinmapping thePins;
 extern uLog theLog;
+extern ledmadness theLeds;
 
 steppercontroller::steppercontroller() {
 }
@@ -33,6 +35,8 @@ void steppercontroller::run(inputStates newPosition) {
         thePosition = newPosition;
         changeState();
     }
+
+     theLeds.run(theInput.getPosition());
 
     if (millis() - stepperTimer >= stepperInterval) {
         stepperTimer = millis();
