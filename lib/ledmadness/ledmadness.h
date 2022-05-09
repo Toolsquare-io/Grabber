@@ -16,6 +16,11 @@ class ledmadness {
 
   private:
     uint8_t brightness = 64;
+    uint8_t ledindex = 0;
+    uint8_t ledbatch = 10;
+    uint8_t brightness = 255;
+    uint8_t colorIndex = 1;
+
     CRGB leds[NUM_LEDS];
     inputStates theState;
     CRGBPalette16 currentPalette;

@@ -20,7 +20,7 @@ void steppercontroller::setup() {
     pinMode(thePins.x_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
     pinMode(thePins.y_min_limitpin, INPUT_PULLUP);
-    pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
+    pinMode(thePins.y_plus_limitpin, INPUT_PULLUP);
 
     pinMode(thePins.SHIELD_EN_PIN,OUTPUT);
     digitalWrite(thePins.SHIELD_EN_PIN, LOW);
@@ -52,7 +52,6 @@ void steppercontroller::run(inputStates newPosition) {
                 } else {
                     newWarning = limitwarnings::xmin;
                 }
-
                 break;
 
             case inputStates::Xplus:
@@ -62,7 +61,6 @@ void steppercontroller::run(inputStates newPosition) {
                 } else {
                     newWarning = limitwarnings::xplus;
                 }
-
                 break;
 
             case inputStates::Yminus:
@@ -72,7 +70,6 @@ void steppercontroller::run(inputStates newPosition) {
                 } else {
                     newWarning = limitwarnings::ymin;
                 }
-
                 break;
 
             case inputStates::Yplus:
@@ -82,7 +79,6 @@ void steppercontroller::run(inputStates newPosition) {
                 } else {
                     newWarning = limitwarnings::yplus;
                 }
-
                 break;
 
             case inputStates::Zminus:        // TODO add z limits
@@ -177,6 +173,7 @@ void steppercontroller::changeState() {
         case inputStates::Xplus:
             M1.setDir(direction::counterclockwise);
             M2.setDir(direction::clockwise);
+            break;
 
         case inputStates::Yminus:
             M1.setDir(direction::clockwise);
@@ -186,6 +183,7 @@ void steppercontroller::changeState() {
         case inputStates::Yplus:
             M1.setDir(direction::counterclockwise);
             M2.setDir(direction::counterclockwise);
+            break;
 
         case inputStates::Zminus:
             MZ.setDir(direction::clockwise);

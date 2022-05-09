@@ -17,28 +17,20 @@ void ledmadness::setup() {
 }
 
 void ledmadness::run(inputStates inputState) {
-    if (inputState != theState) {
-        changeState(inputState);
-    }
-    if (inputState == inputStates::neutral) {
-        /* code */
-
-        static uint8_t startIndex = 0;
-        startIndex                = startIndex + 1; /* motion speed */
-
-        FillLEDsFromPaletteColors(startIndex);
-
+    if (NUM_LEDS - ledindex >= ledbatch) {
+        for (ledindex; ledindex < ledindex + ledbatch; ledindex++) {
+            leds[ledindex] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+            colorIndex += 3;
+        }
+    } else {
+        if (NUM_LEDS - ledindex >= 0) {
+            /* code */
+        }
+        if (inputState != theState) {
+            changeState(inputState);
+        }
         FastLED.show();
         FastLED.delay(1000 / updatesPerSecond);
-    }
-}
-
-void ledmadness::FillLEDsFromPaletteColors(uint8_t colorIndex) {
-    uint8_t brightness = 255;
-
-    for (int i = 0; i < NUM_LEDS; ++i) {
-        leds[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-        colorIndex += 3;
     }
 }
 
