@@ -1,22 +1,22 @@
 #pragma once
 
-enum class direction{
+enum class direction {
     clockwise,
     counterclockwise
 };
 
-class stepper
-{
-public:
+class stepper {
+  public:
     stepper();
     void setPins(int pPin, int dPin);
     void setDir(direction dir);
     void step();
     long getDelta();
-private:
+
+  private:
+    int pulsestate;
     int pulsePin;
     int dirPin;
     long delta;
     direction theDirection;
 };
-
