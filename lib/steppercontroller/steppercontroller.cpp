@@ -16,15 +16,14 @@ void steppercontroller::setup() {
     M2.setPins(thePins.M2_STP_PIN, thePins.M2_DIR_PIN);
     MZ.setPins(thePins.Z_STP_PIN, thePins.Z_DIR_PIN);
 
-
     pinMode(thePins.x_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
     pinMode(thePins.y_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.y_plus_limitpin, INPUT_PULLUP);
-    pinMode(thePins.z_min_limitpin,INPUT_PULLUP);
+    pinMode(thePins.z_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.z_plus_limitpin, INPUT_PULLUP);
 
-    pinMode(thePins.SHIELD_EN_PIN,OUTPUT);
+    pinMode(thePins.SHIELD_EN_PIN, OUTPUT);
     digitalWrite(thePins.SHIELD_EN_PIN, LOW);
 
     theLog.output(subSystem::stepper, loggingLevel::Info, "stepper setup done");
@@ -38,15 +37,21 @@ void steppercontroller::run(inputStates newPosition) {
         changeState();
     }
 
-     //theLeds.run(theInput.getPosition());
-
     if (millis() - stepperTimer >= stepperInterval) {
         stepperTimer = millis();
         limitwarnings newWarning;
 
         switch (thePosition) {
             case inputStates::locked:
+                // TODO add Toolsquare running output to low
+                theLeds.run(thePosition);
                 break;
+
+            case inputStates::neutral:
+                // TODO add Toolsquare running output to low
+                theLeds.run(thePosition);
+                break;
+
             case inputStates::Xminus:
                 if (xminlimitState) {
                     M1.step();
@@ -83,15 +88,28 @@ void steppercontroller::run(inputStates newPosition) {
                 }
                 break;
 
-            case inputStates::Zminus:        // TODO add z limits
-            case inputStates::Zplus:
-                MZ.step();
+            case inputStates::Zminus:
+                if (zminlimitState) {
+                    MZ.step();
+                } else {
+                    newWarning = limitwarnings::zmin;
+                }
                 break;
+
+            case inputStates::Zplus:
+                if (zpluslimitState) {
+                    MZ.step();
+                } else {
+                    newWarning = limitwarnings::zplus;
+                }
+                break;
+
             default:
+                theLog.output(subSystem::stepper, loggingLevel::Error, "unknown input state");
                 break;
         }
         if (thewarning != newWarning) {
-            thewarning=newWarning;
+            thewarning = newWarning;
             printWarning();
         }
     }
@@ -102,6 +120,8 @@ void steppercontroller::checklimits() {
     byte new_xpluslimit = digitalRead(thePins.x_plus_limitpin);
     byte new_yminlimit  = digitalRead(thePins.y_min_limitpin);
     byte new_ypluslimit = digitalRead(thePins.y_plus_limitpin);
+    byte new_zminlimit  = digitalRead(thePins.z_min_limitpin);
+    byte new_zpluslimit = digitalRead(thePins.z_plus_limitpin);
 
     if (new_xminlimit != xminlimitState) {
         xminlimitState = new_xminlimit;
@@ -135,8 +155,22 @@ void steppercontroller::checklimits() {
             theLog.output(subSystem::stepper, loggingLevel::Warning, "yplus limitstate is LOW");
         }
     }
-
-    // TODO add z limits
+    if (new_zminlimit != zminlimitState) {
+        zminlimitState = new_zminlimit;
+        if (zminlimitState) {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "zmin limitstate is HIGH");
+        } else {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "zmin limitstate is LOW");
+        }
+    }
+    if (new_zpluslimit != zpluslimitState) {
+        zpluslimitState = new_zpluslimit;
+        if (zpluslimitState) {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "zplus limitstate is HIGH");
+        } else {
+            theLog.output(subSystem::stepper, loggingLevel::Warning, "zplus limitstate is LOW");
+        }
+    }
 }
 
 void steppercontroller::printWarning() {
@@ -161,6 +195,7 @@ void steppercontroller::printWarning() {
             break;
 
         default:
+            theLog.output(subSystem::stepper, loggingLevel::Error, "unknown stepperwarining");
             break;
     }
 }
