@@ -21,6 +21,8 @@ void steppercontroller::setup() {
     pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
     pinMode(thePins.y_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.y_plus_limitpin, INPUT_PULLUP);
+    pinMode(thePins.z_min_limitpin,INPUT_PULLUP);
+    pinMode(thePins.z_plus_limitpin, INPUT_PULLUP);
 
     pinMode(thePins.SHIELD_EN_PIN,OUTPUT);
     digitalWrite(thePins.SHIELD_EN_PIN, LOW);
