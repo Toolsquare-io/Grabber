@@ -15,6 +15,11 @@ class pinmapping {
     int LockPin         = 19;
     int GrabButtonPin   = 20;
 
+    int GrabPWMpin       = 11;        // PWM
+    int ZButtonLEDpin    = 12;        // PWM
+    int GrabButtonLEDpin = 13;        // PWM
+    int GrabRelaispin    = 30;
+
     // CNCShield defined pin's:
     int M1_STP_PIN    = 2;
     int M2_STP_PIN    = 3;
@@ -32,5 +37,7 @@ class pinmapping {
     int z_min_limitpin  = 27;
 
     // other
-    int led_datapin = 21;
+    int led_datapin  = 21;
+    int TSrunningpin = 28;
+    int TSlockpin    = 29;
 };

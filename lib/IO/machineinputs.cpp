@@ -13,6 +13,11 @@ void machineInputs::initialize() {
     pinMode(thePins.ZButtonPin, INPUT_PULLUP);
     pinMode(thePins.LockPin, INPUT_PULLUP);
     pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
+
+    pinMode(thePins.GrabButtonLEDpin, OUTPUT);
+    pinMode(thePins.ZButtonLEDpin, OUTPUT);
+    pinMode(thePins.GrabPWMpin, OUTPUT);
+    digitalWrite(thePins.GrabPWMpin, grablevel);
 };
 
 void machineInputs::run() {
@@ -47,12 +52,31 @@ void machineInputs::run() {
     }
 
     // the grab button
-    int Grabbuttonstate = digitalRead(thePins.GrabButtonPin);
-    bool nextGrabState  = false;
-    if (Grabbuttonstate == LOW) {
+    bool nextGrabState = false;
+    if (Grab == LOW) {
         nextGrabState = true;
     } else {
         nextGrabState = false;
+    }
+
+    if (nextGrabState != theGrabState) {
+        theGrabState = nextGrabState;
+
+        switch (thePosition) {
+            case inputStates::locked:
+                digitalWrite(thePins.GrabRelaispin, LOW);
+                break;
+
+            default:
+                if (theGrabState) {
+                    digitalWrite(thePins.GrabRelaispin, HIGH);
+                    theLog.output(subSystem::input, loggingLevel::Info, "grab on");
+                } else {
+                    digitalWrite(thePins.GrabRelaispin, LOW);
+                    theLog.output(subSystem::input, loggingLevel::Info, "grab off");
+                }
+                break;
+        }
     }
 
     // output
@@ -91,15 +115,6 @@ void machineInputs::run() {
         theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
         thePosition = nextPos;        // the switch!
     }
-
-    if (nextGrabState != theGrabState) {
-        if (nextGrabState == true) {
-            theLog.output(subSystem::general, loggingLevel::Info, "grab activated");
-        } else {
-            theLog.output(subSystem::general, loggingLevel::Info, "grab released");
-        }
-        theGrabState = nextGrabState;
-    }
 };
 
 inputStates machineInputs::getPosition() {
@@ -109,3 +124,50 @@ inputStates machineInputs::getPosition() {
 bool machineInputs::grabState() {
     return theGrabState;
 };
+
+void machineInputs::setButtonLeds() {
+    bool grabled = false;
+    switch (thePosition) {
+        case inputStates::locked:
+        case inputStates::neutral:
+            buttonBreathe();
+            break;
+
+        case inputStates::Xminus:
+        case inputStates::Xplus:
+            digitalWrite(thePins.ZButtonLEDpin, LOW);
+            grabled = true;
+            break;
+
+        case inputStates::Yminus:
+        case inputStates::Yplus:
+        case inputStates::Zminus:
+        case inputStates::Zplus:
+            digitalWrite(thePins.ZButtonLEDpin, HIGH);
+            grabled = true;
+            break;
+
+        default:
+            theLog.output(subSystem::input, loggingLevel::Error, "unknown buttonledstate");
+            break;
+    }
+    if (grabled) {
+        if (theGrabState) {
+            digitalWrite(thePins.GrabButtonLEDpin, LOW);
+        } else {
+            digitalWrite(thePins.GrabButtonLEDpin, HIGH);
+        }
+    }
+}
+
+void machineInputs::buttonBreathe() {
+    if (millis() - ledtimer >= ledpace) {
+        analogWrite(thePins.ZButtonLEDpin, ledlevel);
+        analogWrite(thePins.GrabButtonLEDpin, 255 - ledlevel);
+
+        if (ledlevel >= 255 || ledlevel <= 0) {
+            ledlevelincrement = -ledlevelincrement;
+        }
+        ledlevel += ledlevelincrement;
+    }
+}
