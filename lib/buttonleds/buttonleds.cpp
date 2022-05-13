@@ -6,10 +6,18 @@
 extern uLog theLog;
 extern pinmapping thePins;
 
+buttonleds::buttonleds(){
 
-void buttonleds::setButtonLeds() {
+}
+
+void buttonleds::setup() {
+    pinMode(thePins.GrabButtonLEDpin, OUTPUT);
+    pinMode(thePins.ZButtonLEDpin, OUTPUT);
+}
+
+void buttonleds::setButtonLeds(inputStates theState, bool theGrabState) {
     bool grabled = false;
-    switch (thePosition) {
+    switch (theState) {
         case inputStates::locked:
         case inputStates::neutral:
             buttonBreathe();

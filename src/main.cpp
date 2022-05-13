@@ -4,6 +4,7 @@
 #include "logging.h"
 #include "steppercontroller.h"
 #include "ledmadness.h"
+#include "buttonleds.h"
 
 //creating the objects
 pinmapping thePins;
@@ -11,6 +12,8 @@ uLog theLog;
 machineInputs theInput;
 steppercontroller theController;
 ledmadness theLeds;
+buttonleds theButtonLeds;
+
 
 //forward declarations
 bool outputToSerial(const char* contents);
@@ -41,6 +44,7 @@ void setup() {
     theInput.initialize();
     theController.setup();
     theLeds.setup();
+    theButtonLeds.setup();
 }
 
 void loop() {

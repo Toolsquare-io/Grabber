@@ -1,9 +1,11 @@
 #include "pinmapping.h"
 #include "machineinputs.h"
 #include "logging.h"
+#include "buttonleds.h"
 
 extern uLog theLog;
 extern pinmapping thePins;
+extern buttonleds theButtonLeds;
 
 void machineInputs::initialize() {
     pinMode(thePins.JoyStickXNegPin, INPUT_PULLUP);
@@ -14,11 +16,9 @@ void machineInputs::initialize() {
     pinMode(thePins.TSlockpin, INPUT_PULLUP);
     pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
 
-    pinMode(thePins.GrabButtonLEDpin, OUTPUT);
-    pinMode(thePins.ZButtonLEDpin, OUTPUT);
     pinMode(thePins.GrabPWMpin, OUTPUT);
     digitalWrite(thePins.GrabPWMpin, grablevel);
-};
+}
 
 void machineInputs::run() {
     int XPos    = digitalRead(thePins.JoyStickXPosPin);
@@ -114,13 +114,15 @@ void machineInputs::run() {
         }
         theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
         thePosition = nextPos;        // the switch!
+
+        theButtonLeds.setButtonLeds(thePosition, theGrabState);
     }
-};
+}
 
 inputStates machineInputs::getPosition() {
     return thePosition;
-};
+}
 
 bool machineInputs::grabState() {
     return theGrabState;
-};
+}
