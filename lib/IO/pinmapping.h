@@ -7,18 +7,18 @@ class pinmapping {
 
   public:
     // inputs
-    int JoyStickXPosPin = 14;
-    int JoyStickXNegPin = 15;
-    int JoyStickYPosPin = 16;
-    int JoyStickYNegPin = 17;
-    int ZButtonPin      = 18;
-    int LockPin         = 19;
-    int GrabButtonPin   = 20;
+    int JoyStickXPosPin = 35;
+    int JoyStickXNegPin = 33;
+    int JoyStickYPosPin = 31;
+    int JoyStickYNegPin = 29;
+    int ZButtonPin      = 41;
+    //int LockPin         = 19;
+    int GrabButtonPin   = 39;
 
     int GrabPWMpin       = 11;        // PWM
     int ZButtonLEDpin    = 12;        // PWM
     int GrabButtonLEDpin = 13;        // PWM
-    int GrabRelaispin    = 30;
+    int GrabRelaispin    = 28;
 
     // CNCShield defined pin's:
     int M1_STP_PIN    = 2;
@@ -29,15 +29,15 @@ class pinmapping {
     int Z_DIR_PIN     = 7;
     int SHIELD_EN_PIN = 8;
 
-    int x_plus_limitpin = 22;
-    int x_min_limitpin  = 23;
-    int y_plus_limitpin = 24;
-    int y_min_limitpin  = 25;
-    int z_plus_limitpin = 26;
-    int z_min_limitpin  = 27;
+    int x_plus_limitpin = 43;
+    int x_min_limitpin  = 45;
+    int y_plus_limitpin = 47;
+    int y_min_limitpin  = 49;
+    int z_plus_limitpin = 51;
+    int z_min_limitpin  = 53;
 
     // other
-    int led_datapin  = 21;
-    int TSrunningpin = 28;
-    int TSlockpin    = 29;
+    int led_datapin  = 26;
+    int TSrunningpin = 24;
+    int TSlockpin    = 22;
 };

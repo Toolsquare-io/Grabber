@@ -11,7 +11,7 @@ void machineInputs::initialize() {
     pinMode(thePins.JoyStickYNegPin, INPUT_PULLUP);
     pinMode(thePins.JoyStickYPosPin, INPUT_PULLUP);
     pinMode(thePins.ZButtonPin, INPUT_PULLUP);
-    pinMode(thePins.LockPin, INPUT_PULLUP);
+    pinMode(thePins.TSlockpin, INPUT_PULLUP);
     pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
 
     pinMode(thePins.GrabButtonLEDpin, OUTPUT);
@@ -26,7 +26,7 @@ void machineInputs::run() {
     int YPos    = digitalRead(thePins.JoyStickYPosPin);
     int YNeg    = digitalRead(thePins.JoyStickYNegPin);
     int ZActive = digitalRead(thePins.ZButtonPin);
-    int Locked  = digitalRead(thePins.LockPin);
+    int Locked  = digitalRead(thePins.TSlockpin);
     int Grab    = digitalRead(thePins.GrabButtonPin);
 
     inputStates nextPos = inputStates::neutral;
