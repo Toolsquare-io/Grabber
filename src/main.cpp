@@ -1,14 +1,14 @@
 #include <Arduino.h>
-#include "machineinputs.h"
 #include "pinmapping.h"
+#include "machineinputs.h"
 #include "logging.h"
 #include "steppercontroller.h"
 #include "ledmadness.h"
 
 //creating the objects
+pinmapping thePins;
 uLog theLog;
 machineInputs theInput;
-pinmapping thePins;
 steppercontroller theController;
 ledmadness theLeds;
 
