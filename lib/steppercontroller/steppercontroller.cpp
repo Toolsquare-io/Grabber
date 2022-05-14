@@ -204,21 +204,21 @@ void steppercontroller::changeState() {
     switch (thePosition) {
         case inputStates::Xminus:
             M1.setDir(direction::clockwise);
-            M2.setDir(direction::counterclockwise);
+            M2.setDir(direction::clockwise);
             break;
 
         case inputStates::Xplus:
             M1.setDir(direction::counterclockwise);
-            M2.setDir(direction::clockwise);
+            M2.setDir(direction::counterclockwise);
             break;
 
         case inputStates::Yminus:
-            M1.setDir(direction::clockwise);
+            M1.setDir(direction::counterclockwise);
             M2.setDir(direction::clockwise);
             break;
 
         case inputStates::Yplus:
-            M1.setDir(direction::counterclockwise);
+            M1.setDir(direction::clockwise);
             M2.setDir(direction::counterclockwise);
             break;
 
