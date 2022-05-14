@@ -2,6 +2,7 @@
 #include "inputstates.h"
 #include "machineinputs.h"
 #include "stepper.h"
+#include "speeds.h"
 
 extern machineInputs theInput;
 
@@ -15,19 +16,11 @@ enum class limitwarnings: uint8_t{
   zplus
 };
 
-enum class speed: uint8_t{
-  veryslow,
-  slow,
-  normal,
-  fast,
-  veryfast,
-  ludicrous
-};
 
 class steppercontroller {
   public:
     steppercontroller();
-    void setup(speed theSpeed);
+    void setup();
     void run(inputStates newPosition);
 
   private:

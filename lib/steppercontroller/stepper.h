@@ -1,4 +1,5 @@
 #pragma once
+#include "speeds.h"
 
 enum class direction {
     clockwise,
@@ -10,8 +11,8 @@ class stepper {
     stepper();
     void setPins(int pPin, int dPin);
     void setDir(direction dir);
-    void step();
-    long getDelta();
+    void setspeed(speeds speed);
+    void run();
 
   private:
     int pulsestate;
@@ -19,4 +20,7 @@ class stepper {
     int dirPin;
     long delta;
     direction theDirection;
+    void step();
+    unsigned long stepperInterval = 1;
+    unsigned long stepperTimer    = 0;
 };
