@@ -11,7 +11,7 @@ extern ledmadness theLeds;
 steppercontroller::steppercontroller() {
 }
 
-void steppercontroller::setup() {
+void steppercontroller::setup(speed theSpeed) {
     M1.setPins(thePins.M1_STP_PIN, thePins.M1_DIR_PIN);
     M2.setPins(thePins.M2_STP_PIN, thePins.M2_DIR_PIN);
     MZ.setPins(thePins.Z_STP_PIN, thePins.Z_DIR_PIN);
@@ -25,6 +25,33 @@ void steppercontroller::setup() {
 
     pinMode(thePins.SHIELD_EN_PIN, OUTPUT);
     digitalWrite(thePins.SHIELD_EN_PIN, LOW);
+
+    switch (theSpeed) {
+        case speed::veryslow:
+            stepperInterval = 30;
+            break;
+        case speed::slow:
+            stepperInterval = 10;
+            break;
+        case speed::normal:
+            stepperInterval = 5;
+            break;
+
+        case speed::fast:
+            stepperInterval = 3;
+            break;
+
+        case speed::veryfast:
+            stepperInterval = 2;
+            break;
+
+        case speed::ludicrous:
+            stepperInterval = 1;
+            break;
+
+        default:
+            break;
+    }
 
     theLog.output(subSystem::stepper, loggingLevel::Info, "stepper setup done");
 }

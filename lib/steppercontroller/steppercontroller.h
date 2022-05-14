@@ -15,10 +15,19 @@ enum class limitwarnings: uint8_t{
   zplus
 };
 
+enum class speed: uint8_t{
+  veryslow,
+  slow,
+  normal,
+  fast,
+  veryfast,
+  ludicrous
+};
+
 class steppercontroller {
   public:
     steppercontroller();
-    void setup();
+    void setup(speed theSpeed);
     void run(inputStates newPosition);
 
   private:
