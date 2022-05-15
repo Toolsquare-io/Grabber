@@ -15,8 +15,8 @@ void steppercontroller::setup() {
     M1.setPins(thePins.M1_STP_PIN, thePins.M1_DIR_PIN);
     M2.setPins(thePins.M2_STP_PIN, thePins.M2_DIR_PIN);
     MZ.setPins(thePins.Z_STP_PIN, thePins.Z_DIR_PIN);
-    M1.setspeed(speeds::fast);
-    M2.setspeed(speeds::fast);
+    M1.setspeed(speeds::ludicrous);
+    M2.setspeed(speeds::ludicrous);
     MZ.setspeed(speeds::slow);
 
     pinMode(thePins.x_min_limitpin, INPUT_PULLUP);

@@ -15,6 +15,7 @@ void machineInputs::initialize() {
     pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
 
     pinMode(thePins.GrabButtonLEDpin, OUTPUT);
+    pinMode(thePins.GrabRelaispin, OUTPUT);
     pinMode(thePins.ZButtonLEDpin, OUTPUT);
     pinMode(thePins.GrabPWMpin, OUTPUT);
     digitalWrite(thePins.GrabPWMpin, grablevel);

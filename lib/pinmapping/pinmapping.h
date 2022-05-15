@@ -31,8 +31,8 @@ class pinmapping {
 
     int x_plus_limitpin = 43;
     int x_min_limitpin  = 45;
-    int y_plus_limitpin = 47;
-    int y_min_limitpin  = 49;
+    int y_plus_limitpin = 49;
+    int y_min_limitpin  = 47;
     int z_plus_limitpin = 51;
     int z_min_limitpin  = 53;
 
