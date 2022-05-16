@@ -21,7 +21,7 @@ void blink();
 void setup() {
     
     //blinker
-    blinksetup();
+    //blinksetup();
 
     //configure output
     theLog.setColoredOutput(0U, true);        // enable colored output - remember to set 'monitor_flags = --raw' in platformio.ini    theLog.output(subSystem::general, loggingLevel::Error, "This is an error");           //
@@ -44,7 +44,7 @@ void setup() {
 }
 
 void loop() {
-    blink();
+    //blink();
     theInput.run();
     theController.run(theInput.getPosition());
 }

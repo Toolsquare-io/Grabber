@@ -1,11 +1,13 @@
 #include "ledmadness.h"
 #include "pinmapping.h"
+#include "logging.h"
 
 extern pinmapping thePins;
+extern uLog theLog;
 
 #define LED_TYPE WS2812B
 #define COLOR_ORDER GRB
-#define LED_PIN 21
+#define LED_PIN 26
 #define UPDATES_PER_SECOND 100
 
 ledmadness::ledmadness(/* args */) {
@@ -17,6 +19,7 @@ void ledmadness::setup() {
 }
 
 void ledmadness::run(inputStates inputState) {
+    //theLog.output(subSystem::neopixels, loggingLevel::Info, "running the pixels");
     if (inputState != theState) {
         changeState(inputState);
     }

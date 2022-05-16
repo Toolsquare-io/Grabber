@@ -10,15 +10,20 @@ void machineInputs::initialize() {
     pinMode(thePins.JoyStickXPosPin, INPUT_PULLUP);
     pinMode(thePins.JoyStickYNegPin, INPUT_PULLUP);
     pinMode(thePins.JoyStickYPosPin, INPUT_PULLUP);
-    pinMode(thePins.ZButtonPin, INPUT_PULLUP);
     pinMode(thePins.TSlockpin, INPUT_PULLUP);
-    pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
+
+    pinMode(thePins.ZButtonPin, INPUT);
+    pinMode(thePins.GrabButtonPin, INPUT);
+    
+    digitalWrite(thePins.GrabButtonLEDpin, HIGH);
+    digitalWrite(thePins.ZButtonLEDpin, HIGH);
 
     pinMode(thePins.GrabButtonLEDpin, OUTPUT);
     pinMode(thePins.GrabRelaispin, OUTPUT);
     pinMode(thePins.ZButtonLEDpin, OUTPUT);
     pinMode(thePins.GrabPWMpin, OUTPUT);
     digitalWrite(thePins.GrabPWMpin, grablevel);
+
 };
 
 void machineInputs::run() {
@@ -39,13 +44,13 @@ void machineInputs::run() {
     } else if (XNeg == LOW) {
         nextPos = inputStates::Xminus;
     } else if (YPos == LOW) {
-        if (ZActive == LOW) {
+        if (ZActive == HIGH) {
             nextPos = inputStates::Zplus;
         } else {
             nextPos = inputStates::Yplus;
         }
     } else if (YNeg == LOW) {
-        if (ZActive == LOW) {
+        if (ZActive == HIGH) {
             nextPos = inputStates::Zminus;
         } else {
             nextPos = inputStates::Yminus;
@@ -66,6 +71,7 @@ void machineInputs::run() {
         switch (thePosition) {
             case inputStates::locked:
                 digitalWrite(thePins.GrabRelaispin, LOW);
+                theLog.output(subSystem::input,loggingLevel::Info, "no grab, machine is locked");
                 break;
 
             default:
@@ -127,6 +133,8 @@ bool machineInputs::grabState() {
 };
 
 void machineInputs::setButtonLeds() {
+    //doesn't work because of the 3pin buttons....
+    /*
     bool grabled = false;
     switch (thePosition) {
         case inputStates::locked:
@@ -159,6 +167,7 @@ void machineInputs::setButtonLeds() {
             digitalWrite(thePins.GrabButtonLEDpin, HIGH);
         }
     }
+    */
 }
 
 void machineInputs::buttonBreathe() {
