@@ -2,6 +2,7 @@
 #include "FastLED.h"
 #include "machineinputs.h"
 
+#define LED_PIN 26
 #define NUM_LEDS 50
 #define UPDATES_PER_SECOND 100
 

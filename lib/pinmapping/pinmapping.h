@@ -37,7 +37,7 @@ class pinmapping {
     int z_min_limitpin  = 53;
 
     // other
-    int led_datapin  = 26;
+    int led_datapin  = 26; //change in ledmadness.h file
     int TSrunningpin = 24;
     int TSlockpin    = 22;
 };
