@@ -5,23 +5,24 @@
 extern pinmapping thePins;
 extern uLog theLog;
 
-#define LED_TYPE WS2812B //WS2811
+#define LED_TYPE WS2812B        // WS2811
 #define COLOR_ORDER GRB
 #define UPDATES_PER_SECOND 100
-#define BRIGHTNESS  64
+#define BRIGHTNESS 64
 
 ledmadness::ledmadness(/* args */) {
 }
 
 void ledmadness::setup() {
-    FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, LED_PIN1, COLOR_ORDER>(leds1, NUM_LEDS1).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, LED_PIN2, COLOR_ORDER>(leds2, NUM_LEDS1).setCorrection(TypicalLEDStrip);
     FastLED.setBrightness(brightness);
-    currentPalette=RainbowColors_p;
-    currentBlending=LINEARBLEND;
+    currentPalette  = RainbowColors_p;
+    currentBlending = LINEARBLEND;
 }
 
 void ledmadness::run(inputStates inputState) {
-    //theLog.output(subSystem::neopixels, loggingLevel::Info, "running the pixels");
+    // theLog.output(subSystem::neopixels, loggingLevel::Info, "running the pixels");
     if (inputState != theState) {
         changeState(inputState);
     }
@@ -36,10 +37,15 @@ void ledmadness::run(inputStates inputState) {
 }
 
 void ledmadness::FillLEDsFromPaletteColors(uint8_t colorIndex) {
-    //uint8_t brightness = 255;
+    // uint8_t brightness = 255;
 
-    for (int i = 0; i < NUM_LEDS; ++i) {
-        leds[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+    for (int i = 0; i < NUM_LEDS1; ++i) {
+        leds1[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+
+    for (int i = 0; i < NUM_LEDS2, i++) {
+        leds2[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
         colorIndex += 3;
     }
 }

@@ -37,7 +37,7 @@ void machineInputs::run() {
 
     inputStates nextPos = inputStates::neutral;
 
-    if (Locked == LOW) {
+    if (Locked == HIGH) {
         nextPos = inputStates::locked;
     } else if (XPos == LOW) {
         nextPos = inputStates::Xplus;

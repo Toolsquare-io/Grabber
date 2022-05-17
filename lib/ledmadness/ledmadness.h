@@ -2,8 +2,10 @@
 #include "FastLED.h"
 #include "machineinputs.h"
 
-#define LED_PIN 26
-#define NUM_LEDS 50
+#define LED_PIN1 26
+#define LED_PIN2 54
+#define NUM_LEDS1 50
+#define NUM_LEDS2 30
 #define UPDATES_PER_SECOND 100
 
 
@@ -21,7 +23,8 @@ class ledmadness {
     uint8_t ledbatch = 10;
     uint8_t colorIndex = 1;
 
-    CRGB leds[NUM_LEDS];
+    CRGB leds1[NUM_LEDS1];
+    CRGB leds2[NUM_LEDS2];
     inputStates theState;
     CRGBPalette16 currentPalette;
     TBlendType currentBlending;

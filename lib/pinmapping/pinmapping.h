@@ -12,8 +12,8 @@ class pinmapping {
     int JoyStickYPosPin = 31;
     int JoyStickYNegPin = 29;
     int ZButtonPin      = 41;
-    //int LockPin         = 19;
-    int GrabButtonPin   = 39;
+    // int LockPin         = 19;
+    int GrabButtonPin = 39;
 
     int GrabPWMpin       = 11;        // PWM
     int ZButtonLEDpin    = 12;        // PWM
@@ -37,7 +37,8 @@ class pinmapping {
     int z_min_limitpin  = 53;
 
     // other
-    int led_datapin  = 26; //change in ledmadness.h file
+    int led1_datapin = 26;        // change in ledmadness.h file
+    int led2_datapin = 54;        // change in ledmadness.h file
     int TSrunningpin = 24;
     int TSlockpin    = 22;
 };
