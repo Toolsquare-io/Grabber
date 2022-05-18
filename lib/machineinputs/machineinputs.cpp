@@ -1,6 +1,7 @@
 #include "machineinputs.h"
 #include "pinmapping.h"
 #include "logging.h"
+#include "stdio.h"
 
 extern uLog theLog;
 extern pinmapping thePins;
@@ -11,10 +12,11 @@ void machineInputs::initialize() {
     pinMode(thePins.JoyStickYNegPin, INPUT_PULLUP);
     pinMode(thePins.JoyStickYPosPin, INPUT_PULLUP);
     pinMode(thePins.TSlockpin, INPUT_PULLUP);
+    pinMode(thePins.TSrunningpin, OUTPUT);
 
-    pinMode(thePins.ZButtonPin, INPUT);
-    pinMode(thePins.GrabButtonPin, INPUT);
-    
+    pinMode(thePins.ZButtonPin, INPUT_PULLUP);
+    pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
+
     digitalWrite(thePins.GrabButtonLEDpin, HIGH);
     digitalWrite(thePins.ZButtonLEDpin, HIGH);
 
@@ -23,7 +25,6 @@ void machineInputs::initialize() {
     pinMode(thePins.ZButtonLEDpin, OUTPUT);
     pinMode(thePins.GrabPWMpin, OUTPUT);
     digitalWrite(thePins.GrabPWMpin, grablevel);
-
 };
 
 void machineInputs::run() {
@@ -59,10 +60,12 @@ void machineInputs::run() {
 
     // the grab button
     bool nextGrabState = false;
+
     if (Grab == LOW) {
         nextGrabState = true;
+        // Serial.print("grab is true");
     } else {
-        nextGrabState = false;
+        // Serial.println("grab is false");
     }
 
     if (nextGrabState != theGrabState) {
@@ -71,7 +74,7 @@ void machineInputs::run() {
         switch (thePosition) {
             case inputStates::locked:
                 digitalWrite(thePins.GrabRelaispin, LOW);
-                theLog.output(subSystem::input,loggingLevel::Info, "no grab, machine is locked");
+                theLog.output(subSystem::input, loggingLevel::Info, "no grab, machine is locked");
                 break;
 
             default:
@@ -87,14 +90,19 @@ void machineInputs::run() {
     }
 
     // output
+    bool nextRunning = true;
+
     if (nextPos != thePosition) {
         char stateTxt[8];
         switch (nextPos) {
             case inputStates::locked:
                 strcpy(stateTxt, "locked");
+                nextRunning = false;
                 break;
             case inputStates::neutral:
                 strcpy(stateTxt, "neutral");
+                nextRunning = false;
+
                 break;
             case inputStates::Xminus:
                 strcpy(stateTxt, "x-");
@@ -121,6 +129,22 @@ void machineInputs::run() {
         }
         theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
         thePosition = nextPos;        // the switch!
+
+        if (nextRunning != isRunning) {
+            //    if (millis() - runningtimer >= runningdebounce) {
+            //      runningtimer = millis();
+
+            isRunning = nextRunning;
+
+            if (isRunning) {
+                theLog.output(subSystem::input, loggingLevel::Debug, "running");
+                digitalWrite(thePins.TSrunningpin, HIGH);
+            } else {
+                theLog.output(subSystem::input, loggingLevel::Debug, "idle");
+                digitalWrite(thePins.TSrunningpin, LOW);
+            }
+            //}
+        }
     }
 };
 
@@ -133,7 +157,7 @@ bool machineInputs::grabState() {
 };
 
 void machineInputs::setButtonLeds() {
-    //doesn't work because of the 3pin buttons....
+    // doesn't work because of the 3pin buttons....
     /*
     bool grabled = false;
     switch (thePosition) {

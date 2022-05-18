@@ -10,6 +10,7 @@ class machineInputs {
     bool grabState();
 
   private:
+    bool isRunning;
     inputStates thePosition = inputStates::neutral;
     bool theGrabState       = false;
     void setButtonLeds();
@@ -17,7 +18,9 @@ class machineInputs {
     unsigned long ledpace  = 50;
     unsigned long ledtimer = 0;
     uint8_t ledlevel       = 100;
-    int ledlevelincrement = 1;
+    int ledlevelincrement  = 1;
     void grabcontroll();
     uint8_t grablevel = 120;
+    unsigned long runningdebounce = 500;
+    unsigned long runningtimer = 0;
 };

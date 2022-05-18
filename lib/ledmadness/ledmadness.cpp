@@ -37,17 +37,21 @@ void ledmadness::run(inputStates inputState) {
 }
 
 void ledmadness::FillLEDsFromPaletteColors(uint8_t colorIndex) {
-    // uint8_t brightness = 255;
+  uint8_t brightness = 255;
 
-    for (int i = 0; i < NUM_LEDS1; ++i) {
-        leds1[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-        colorIndex += 3;
-    }
+  for (int i = 0; i < NUM_LEDS1; ++i)
+  {
+    leds1[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+    colorIndex += 3;
+  }
+  FastLED.show();
 
-    for (int i = 0; i < NUM_LEDS2, i++) {
-        leds2[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-        colorIndex += 3;
-    }
+  for (int j = 0; j < NUM_LEDS2; j++)
+  {
+    leds2[j] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+    colorIndex += 3;
+  }
+ 
 }
 
 void ledmadness::changeState(inputStates newState) {

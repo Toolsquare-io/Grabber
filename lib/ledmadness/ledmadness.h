@@ -3,9 +3,9 @@
 #include "machineinputs.h"
 
 #define LED_PIN1 26
-#define LED_PIN2 54
-#define NUM_LEDS1 50
-#define NUM_LEDS2 30
+#define LED_PIN2 25
+#define NUM_LEDS1 26 //bridge
+#define NUM_LEDS2 100
 #define UPDATES_PER_SECOND 100
 
 
