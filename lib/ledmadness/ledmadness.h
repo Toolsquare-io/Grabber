@@ -5,7 +5,7 @@
 #define LED_PIN1 26
 #define LED_PIN2 25
 #define NUM_LEDS1 26 //bridge
-#define NUM_LEDS2 100
+#define NUM_LEDS2 88
 #define UPDATES_PER_SECOND 100
 
 
