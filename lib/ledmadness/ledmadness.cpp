@@ -15,7 +15,7 @@ ledmadness::ledmadness(/* args */) {
 
 void ledmadness::setup() {
     FastLED.addLeds<LED_TYPE, LED_PIN1, COLOR_ORDER>(leds1, NUM_LEDS1).setCorrection(TypicalLEDStrip);
-    FastLED.addLeds<LED_TYPE, LED_PIN2, COLOR_ORDER>(leds2, NUM_LEDS1).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, LED_PIN2, COLOR_ORDER>(leds2, NUM_LEDS2).setCorrection(TypicalLEDStrip);
     FastLED.setBrightness(brightness);
     currentPalette  = RainbowColors_p;
     currentBlending = LINEARBLEND;
