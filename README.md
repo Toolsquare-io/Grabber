@@ -1,3 +1,5 @@
+![https://platformio.org/](https://camo.githubusercontent.com/8fc14af039bcce01d826030e0c74cdc8a8f84cadca809a95be0b6973db5dbbfb/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6275696c74253230776974682d706c6174666f726d696f2d6f72616e6765 "platformio")
+
 # Tha Grabber
 A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units. Here's the [project page](https://github.com/Toolsquare-io/Grabber/projects/1).
 
@@ -49,7 +51,6 @@ The full [BOM](https://docs.google.com/spreadsheets/d/1Js6a-A9pP3j60k_G_hthX2zwb
 ## Electronics
 
 Pinouts
-
 ![CNCShield](https://blog.protoneer.co.nz/wp-content/uploads/2013/07/Arduino-CNC-Shield-Schematics.png "pinmapping")
 
 |  Function | Pin Number   |  
