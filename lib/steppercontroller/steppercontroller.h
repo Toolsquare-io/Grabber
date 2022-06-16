@@ -6,16 +6,15 @@
 
 extern machineInputs theInput;
 
-enum class limitwarnings: uint8_t{
-  clear,
-  xmin,
-  xplus,
-  ymin,
-  yplus,
-  zmin,
-  zplus
+enum class limitwarnings : uint8_t {
+    clear,
+    xmin,
+    xplus,
+    ymin,
+    yplus,
+    zmin,
+    zplus
 };
-
 
 class steppercontroller {
   public:
@@ -24,16 +23,14 @@ class steppercontroller {
     void run(inputStates newPosition);
 
   private:
-    stepper M1;
-    stepper M2;
-    stepper MZ;
+    stepper motor[3];
     limitwarnings thewarning;
     inputStates thePosition = inputStates::locked;
 
     void changeState();
     void checklimits();
     void printWarning();
-   
+
     unsigned long stepperInterval = 1;
     unsigned long stepperTimer;
 
@@ -49,4 +46,5 @@ class steppercontroller {
     byte yminlimitState;
     byte zpluslimitState;
     byte zminlimitState;
+
 };

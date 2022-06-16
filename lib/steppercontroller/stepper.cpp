@@ -30,25 +30,25 @@ void stepper::setDir(direction dir) {
 void stepper::setspeed(speeds speed) {
     switch (speed) {
         case speeds::veryslow:
-            stepperInterval = 30;
+            speedTarget = 1;
             break;
         case speeds::slow:
-            stepperInterval = 10;
+            speedTarget = 2;
             break;
         case speeds::normal:
-            stepperInterval = 5;
+            speedTarget = 4;
             break;
 
         case speeds::fast:
-            stepperInterval = 3;
+            speedTarget = 8;
             break;
 
         case speeds::veryfast:
-            stepperInterval = 2;
+            speedTarget = 12;
             break;
 
         case speeds::ludicrous:
-            stepperInterval = 1;
+            speedTarget = 16;
             break;
 
         default:
@@ -60,6 +60,28 @@ void stepper::run() {
     if (millis() - stepperTimer >= stepperInterval) {
         stepperTimer = millis();
         step();
+
+        if (speedTarget != theSpeed) {
+            if (speedTarget <= theSpeed)        // breaking
+            {
+                theSpeed = theSpeed - speedIncrement;
+            } else {        // speedIncrement
+                theSpeed = theSpeed + speedIncrement;
+            }
+
+            // Frequency calculation
+            // NEMA 17 is a hybrid stepping motor with a 1.8° step angle (200 steps/revolution)
+            // interval (mHz)=60000/(theSpeed*steps needed for 1 revolution) => 300/theSpeed
+            stepperInterval = 300 / theSpeed;
+        }
+    }
+}
+
+bool stepper::isRunning() {
+    if (speedTarget != 0 || theSpeed != 0) {
+        return true;
+    } else {
+        return false;
     }
 }
 

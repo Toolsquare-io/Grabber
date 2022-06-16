@@ -12,12 +12,13 @@ steppercontroller::steppercontroller() {
 }
 
 void steppercontroller::setup() {
-    M1.setPins(thePins.M1_STP_PIN, thePins.M1_DIR_PIN);
-    M2.setPins(thePins.M2_STP_PIN, thePins.M2_DIR_PIN);
-    MZ.setPins(thePins.Z_STP_PIN, thePins.Z_DIR_PIN);
-    M1.setspeed(speeds::ludicrous);
-    M2.setspeed(speeds::ludicrous);
-    MZ.setspeed(speeds::fast);
+    motor[0].setPins(thePins.M1_STP_PIN, thePins.M1_DIR_PIN);
+    motor[1].setPins(thePins.M2_STP_PIN, thePins.M2_DIR_PIN);
+    motor[2].setPins(thePins.Z_STP_PIN, thePins.Z_DIR_PIN);
+
+    for (size_t i = 0; i < 3; i++) {
+        motor[i].setspeed(speeds::stop);
+    }
 
     pinMode(thePins.x_min_limitpin, INPUT_PULLUP);
     pinMode(thePins.x_plus_limitpin, INPUT_PULLUP);
@@ -55,8 +56,8 @@ void steppercontroller::run(inputStates newPosition) {
 
         case inputStates::Xminus:
             if (xminlimitState) {
-                M1.run();
-                M2.run();
+                motor[0].setspeed(speeds::ludicrous);
+                motor[1].setspeed(speeds::ludicrous);
             } else {
                 newWarning = limitwarnings::xmin;
             }
@@ -64,8 +65,8 @@ void steppercontroller::run(inputStates newPosition) {
 
         case inputStates::Xplus:
             if (xpluslimitState) {
-                M1.run();
-                M2.run();
+                motor[0].setspeed(speeds::ludicrous);
+                motor[1].setspeed(speeds::ludicrous);
             } else {
                 newWarning = limitwarnings::xplus;
             }
@@ -73,8 +74,8 @@ void steppercontroller::run(inputStates newPosition) {
 
         case inputStates::Yminus:
             if (yminlimitState) {
-                M1.run();
-                M2.run();
+                motor[0].setspeed(speeds::ludicrous);
+                motor[1].setspeed(speeds::ludicrous);
             } else {
                 newWarning = limitwarnings::ymin;
             }
@@ -82,8 +83,8 @@ void steppercontroller::run(inputStates newPosition) {
 
         case inputStates::Yplus:
             if (ypluslimitState) {
-                M1.run();
-                M2.run();
+                motor[0].setspeed(speeds::ludicrous);
+                motor[1].setspeed(speeds::ludicrous);
             } else {
                 newWarning = limitwarnings::yplus;
             }
@@ -91,7 +92,7 @@ void steppercontroller::run(inputStates newPosition) {
 
         case inputStates::Zminus:
             if (zminlimitState) {
-                MZ.run();
+                motor[2].setspeed(speeds::fast);
             } else {
                 newWarning = limitwarnings::zmin;
             }
@@ -99,7 +100,7 @@ void steppercontroller::run(inputStates newPosition) {
 
         case inputStates::Zplus:
             if (zpluslimitState) {
-                MZ.run();
+                motor[2].setspeed(speeds::fast);
             } else {
                 newWarning = limitwarnings::zplus;
             }
@@ -109,6 +110,13 @@ void steppercontroller::run(inputStates newPosition) {
             theLog.output(subSystem::stepper, loggingLevel::Error, "unknown input state");
             break;
     }
+
+    for (size_t i = 0; i < 3; i++) {
+        if (motor[i].isRunning()) {
+            motor[i].run();
+        }
+    }
+
     if (thewarning != newWarning) {
         thewarning = newWarning;
         printWarning();
@@ -203,31 +211,31 @@ void steppercontroller::printWarning() {
 void steppercontroller::changeState() {
     switch (thePosition) {
         case inputStates::Xminus:
-            M1.setDir(direction::clockwise);
-            M2.setDir(direction::clockwise);
+            motor[0].setDir(direction::clockwise);
+            motor[1].setDir(direction::clockwise);
             break;
 
         case inputStates::Xplus:
-            M1.setDir(direction::counterclockwise);
-            M2.setDir(direction::counterclockwise);
+            motor[0].setDir(direction::counterclockwise);
+            motor[1].setDir(direction::counterclockwise);
             break;
 
         case inputStates::Yminus:
-            M1.setDir(direction::counterclockwise);
-            M2.setDir(direction::clockwise);
+            motor[0].setDir(direction::counterclockwise);
+            motor[1].setDir(direction::clockwise);
             break;
 
         case inputStates::Yplus:
-            M1.setDir(direction::clockwise);
-            M2.setDir(direction::counterclockwise);
+            motor[0].setDir(direction::clockwise);
+            motor[1].setDir(direction::counterclockwise);
             break;
 
         case inputStates::Zminus:
-            MZ.setDir(direction::clockwise);
+            motor[2].setDir(direction::clockwise);
             break;
 
         case inputStates::Zplus:
-            MZ.setDir(direction::counterclockwise);
+            motor[2].setDir(direction::counterclockwise);
             break;
 
         default:
