@@ -13,6 +13,7 @@ class pinmapping {
     int JoyStickYNegPin = 4;
     int ZButtonPin      = 5;
     int GrabButtonPin   = 6;
+    // and GND
 
     int GrabPWMpin       = 7;        // PWM
     int GrabRelaispin = 8;
@@ -27,4 +28,7 @@ class pinmapping {
 
     //Saola reserved pins: 
     // Serial1 = 19 and 21
+
+    //Total 15 pins
+    //GND 
 };
