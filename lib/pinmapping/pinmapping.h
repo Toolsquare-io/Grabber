@@ -9,8 +9,8 @@ class pinmapping {
     // inputs
     int JoyStickXPosPin = 1;
     int JoyStickXNegPin = 2;
-    int JoyStickYPosPin = 3;
-    int JoyStickYNegPin = 4;
+    int JoyStickYPosPin = 4;
+    int JoyStickYNegPin = 3;
     int ZButtonPin      = 5;
     int GrabButtonPin   = 6;
     // and GND
@@ -20,9 +20,9 @@ class pinmapping {
 
 
     // other
-    int led1_datapin = 9;        // bridge change in ledmadness.h file
-    int led2_datapin = 10;        // change in ledmadness.h file
-    int led3_datapin = 11;        // onboard led
+    int led1_datapin = 10;        // bridge change in ledmadness.h file
+    int led2_datapin = 11;        // change in ledmadness.h file
+    int led3_datapin = 18;        // onboard led
     int TSrunningpin = 12;
     int TSlockpin    = 13;
 

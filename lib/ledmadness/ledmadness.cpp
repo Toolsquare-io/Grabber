@@ -14,11 +14,15 @@ ledmadness::ledmadness(/* args */) {
 }
 
 void ledmadness::setup() {
+     pinMode(LED_PIN1, OUTPUT);
+    pinMode(LED_PIN2, OUTPUT);
     FastLED.addLeds<LED_TYPE, LED_PIN1, COLOR_ORDER>(leds1, NUM_LEDS1).setCorrection(TypicalLEDStrip);
     FastLED.addLeds<LED_TYPE, LED_PIN2, COLOR_ORDER>(leds2, NUM_LEDS2).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, 18, COLOR_ORDER>(leds3, 1).setCorrection(TypicalLEDStrip);
     FastLED.setBrightness(brightness);
     currentPalette  = RainbowColors_p;
     currentBlending = LINEARBLEND;
+    FastLED.show();
 }
 
 void ledmadness::run(inputStates inputState) {
@@ -33,25 +37,25 @@ void ledmadness::run(inputStates inputState) {
     FillLEDsFromPaletteColors(startIndex);
 
     FastLED.show();
-    FastLED.delay(1000 / updatesPerSecond);
+    FastLED.delay(10);        // 00 / updatesPerSecond
 }
 
 void ledmadness::FillLEDsFromPaletteColors(uint8_t colorIndex) {
-  uint8_t brightness = 255;
+    uint8_t brightness = 255;
 
-  for (int i = 0; i < NUM_LEDS1; ++i)
-  {
-    leds1[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-    colorIndex += 3;
-  }
-  FastLED.show();
+    for (int i = 0; i < NUM_LEDS1; ++i) {
+        leds1[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
 
-  for (int j = 0; j < NUM_LEDS2; j++)
-  {
-    leds2[j] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-    colorIndex += 3;
-  }
- 
+    for (int j = 0; j < NUM_LEDS2; j++) {
+        leds2[j] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+
+    leds3[0] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+
+    FastLED.show();
 }
 
 void ledmadness::changeState(inputStates newState) {

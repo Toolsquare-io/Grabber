@@ -3,6 +3,7 @@
 #include "machineinputs.h"
 #include "pinmapping.h"
 #include "ledmadness.h"
+#include "inputstates.h"
 
 // creating the objects
 uLog theLog;
@@ -11,9 +12,10 @@ pinmapping thePins;
 ledmadness theLeds;
 
 // forward declarations
-void echoSerial();
+// void echoSerial();
 bool outputToSerial(const char* contents);
 bool loggingTime(char* contents, uint32_t length);
+void printHeartBeat();
 
 void setup() {
     // configure output
@@ -35,18 +37,61 @@ void setup() {
 
     theInput.initialize();
     theLeds.setup();
+   
+    delay(8000);
+    Serial1.println("$H");
+    delay(20000);
 }
 
 void loop() {
     theInput.run();
-    echoSerial();
+    theLeds.run(theInput.getPosition());
+    //printHeartBeat();
+
+    // echoSerial();
 }
 
-void echoSerial() {
-    while (Serial1.available()) {
-        theLog.output(subSystem::stepper, loggingLevel::Info, Serial1.read()); 
+unsigned long timervalue;
+unsigned long heartbeattimeout = 1000;
+
+void printHeartBeat() {
+    if (millis() - timervalue >= heartbeattimeout) {
+        timervalue = millis();
+        inputStates theState;
+        theState = theInput.getPosition();
+        switch (theState) {
+            case inputStates::locked:
+                Serial.println("locked");
+                break;
+            case inputStates::neutral:
+                Serial.println("neutral");
+                break;
+            case inputStates::Xminus:
+                Serial.println("x-");
+                break;
+            case inputStates::Xplus:
+                Serial.println("x+");
+                break;
+            case inputStates::Yminus:
+                Serial.println("y-");
+                break;
+            case inputStates::Zminus:
+                Serial.println("z-");
+                break;
+            case inputStates::Zplus:
+                Serial.println("z+");
+                break;
+            default:
+                Serial.print(".");
+                break;
+        }
     }
 }
+// void echoSerial() {
+//     while (Serial1.available()) {
+//         theLog.output(subSystem::stepper, loggingLevel::Info, Serial1.read());
+//     }
+// }
 
 // Logging helper functions
 bool outputToSerial(const char* contents) {        // Step 3. Add a function which sends the output of the logging to the right hw channel, eg Serial port

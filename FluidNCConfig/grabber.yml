@@ -35,7 +35,7 @@ axes:
     motor0:
       limit_pos_pin: gpio.36:low
       hard_limits: false
-      pulloff_mm: 6.000
+      pulloff_mm: 10.000
       tmc_2209:
         uart:
           txd_pin: gpio.16
@@ -48,7 +48,7 @@ axes:
         hold_amps: 0.250
         microsteps: 16
         stallguard: 0
-        stallguard_debug: false
+        stallguard_debug: true
         toff_disable: 0
         toff_stealthchop: 5
         toff_coolstep: 3
@@ -67,9 +67,10 @@ axes:
     max_rate_mm_per_min: 5000
     acceleration_mm_per_sec2: 100
     max_travel_mm: 325
+    soft_limits: true
 
     homing:
-      cycle: 1
+      cycle: 3
       mpos_mm: 0
       positive_direction: false
       feed_mm_per_min: 400.000
@@ -79,7 +80,7 @@ axes:
     motor0:
       limit_pos_pin: gpio.39:low
       hard_limits: false
-      pulloff_mm: 6.00
+      pulloff_mm: 10.00
       tmc_2209:
         addr: 1
         r_sense_ohms: 0.110
@@ -97,32 +98,34 @@ axes:
         step_pin: i2so.5
         direction_pin: i2so.4
         disable_pin: i2so.7
+
     motor1:
       null_motor:
 
   z:
     steps_per_mm: 100
     max_rate_mm_per_min: 5000
-    acceleration_mm_per_sec2: 50
-    max_travel_mm: 25
+    acceleration_mm_per_sec2: 100
+    max_travel_mm: 298
+    soft_limits: true
 
     homing:
-      cycle: 0
-      mpos_mm: 23
-      positive_direction: true
+      cycle: 1
+      mpos_mm: 0
+      positive_direction: false
       feed_mm_per_min: 400.000
-      seek_mm_per_min: 800.000
-      settle_ms: 500
+      seek_mm_per_min: 1200.000
+      settle_ms: 200
     
     motor0:
       limit_pos_pin: gpio.34:low
       hard_limits: false
-      pulloff_mm: 4.00
+      pulloff_mm: 10.000
       tmc_2209:
         addr: 2
         r_sense_ohms: 0.110
         run_amps: 0.500
-        hold_amps: 0.200
+        hold_amps: 0.250
         microsteps: 16
         stallguard: 0
         stallguard_debug: false
@@ -148,7 +151,5 @@ sdcard:
   cs_pin: gpio.5
   card_detect_pin: NO_PIN
 
-
 start:
-  must_home: false
-
+  must_home: true

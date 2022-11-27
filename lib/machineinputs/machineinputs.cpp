@@ -14,13 +14,14 @@ void machineInputs::initialize() {
     pinMode(thePins.TSlockpin, INPUT_PULLUP);
     pinMode(thePins.TSrunningpin, OUTPUT);
 
-    pinMode(thePins.ZButtonPin, INPUT_PULLUP);
-    pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
+    pinMode(thePins.ZButtonPin, INPUT_PULLDOWN);
+    pinMode(thePins.GrabButtonPin, INPUT_PULLDOWN);
 
     pinMode(thePins.GrabRelaispin, OUTPUT);
     pinMode(thePins.GrabPWMpin, OUTPUT);
     digitalWrite(thePins.GrabPWMpin, grablevel);
 };
+
 
 void machineInputs::run() {
     int XPos    = digitalRead(thePins.JoyStickXPosPin);
@@ -33,9 +34,22 @@ void machineInputs::run() {
 
     inputStates nextPos = inputStates::neutral;
 
-    if (Locked == HIGH) {
+    if (theZButtonState != ZActive) {
+        theZButtonState = ZActive;
+        if (ZActive == HIGH) {
+            Serial.println("Z High");
+        } else {
+            Serial.println("Z LOW");
+        }
+    }
+
+    /*
+    if (Locked == LOW) {
         nextPos = inputStates::locked;
-    } else if (XPos == LOW) {
+    } else
+    */
+
+    if (XPos == LOW) {
         nextPos = inputStates::Xplus;
     } else if (XNeg == LOW) {
         nextPos = inputStates::Xminus;
@@ -55,13 +69,10 @@ void machineInputs::run() {
 
     // the grab button
     bool nextGrabState = false;
-
-    if (Grab == LOW) {
-        nextGrabState = true;
-        // Serial.print("grab is true");
-    } else {
-        // Serial.println("grab is false");
-    }
+    
+        if (Grab == LOW) {
+            nextGrabState = true;  
+        } 
 
     if (nextGrabState != theGrabState) {
         theGrabState = nextGrabState;
@@ -96,40 +107,41 @@ void machineInputs::run() {
                 break;
             case inputStates::neutral:
                 strcpy(stateTxt, "neutral");
-                Serial.println("!");
+                Serial1.write(0x85);
                 nextRunning = false;
 
                 break;
             case inputStates::Xminus:
                 strcpy(stateTxt, "x-");
-                Serial1.println("$J=G91 G21 F1000 X-50");
+                Serial1.println("$J=G91 G21 F1000 X-1000");
                 break;
             case inputStates::Xplus:
                 strcpy(stateTxt, "x+");
-                Serial1.println("$J=G91 G21 F1000 X50");
+                Serial1.println("$J=G91 G21 F1000 X1000");
                 break;
             case inputStates::Yminus:
                 strcpy(stateTxt, "y-");
-                Serial1.println("$J=G91 G21 F1000 Y-50");
+                Serial1.println("$J=G91 G21 F1000 Y-1000");
                 break;
             case inputStates::Yplus:
                 strcpy(stateTxt, "y+");
-                Serial1.println("$J=G91 G21 F1000 Y50");
+                Serial1.println("$J=G91 G21 F1000 Y1000");
                 break;
             case inputStates::Zminus:
                 strcpy(stateTxt, "z-");
-                Serial1.println("$J=G91 G21 F1000 Z-50");
+                Serial1.println("$J=G91 G21 F1000 Z-1000");
                 break;
             case inputStates::Zplus:
                 strcpy(stateTxt, "z+");
-                Serial1.println("$J=G91 G21 F1000 Z50");
+                Serial1.println("$J=G91 G21 F1000 Z1000");
                 break;
 
             default:
                 theLog.output(subSystem::general, loggingLevel::Error, "unknown joystick state");
                 break;
         }
-        theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
+        Serial.println(stateTxt);
+        // theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
         thePosition = nextPos;        // the switch!
 
         if (nextRunning != isRunning) {
@@ -139,10 +151,10 @@ void machineInputs::run() {
             isRunning = nextRunning;
 
             if (isRunning) {
-                theLog.output(subSystem::input, loggingLevel::Debug, "running");
+                //theLog.output(subSystem::input, loggingLevel::Debug, "running");
                 digitalWrite(thePins.TSrunningpin, HIGH);
             } else {
-                theLog.output(subSystem::input, loggingLevel::Debug, "idle");
+                //theLog.output(subSystem::input, loggingLevel::Debug, "idle");
                 digitalWrite(thePins.TSrunningpin, LOW);
             }
             //}
