@@ -15,8 +15,8 @@ class pinmapping {
     int GrabButtonPin   = 6;
     // and GND
 
-    int GrabPWMpin       = 7;        // PWM
-    int GrabRelaispin = 8;
+    //int GrabPWMpin       = 7;        // PWM Not in use as it's only illuminated when pressed. Thus connected to 3.3V
+    int GrabRelaispin = 7;
 
 
     // other

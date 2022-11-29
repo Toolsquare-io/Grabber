@@ -18,8 +18,8 @@ void machineInputs::initialize() {
     pinMode(thePins.GrabButtonPin, INPUT_PULLDOWN);
 
     pinMode(thePins.GrabRelaispin, OUTPUT);
-    pinMode(thePins.GrabPWMpin, OUTPUT);
-    digitalWrite(thePins.GrabPWMpin, grablevel);
+    //pinMode(thePins.GrabPWMpin, OUTPUT);
+    //digitalWrite(thePins.GrabPWMpin, grablevel);
 };
 
 
@@ -87,6 +87,8 @@ void machineInputs::run() {
                 if (theGrabState) {
                     digitalWrite(thePins.GrabRelaispin, HIGH);
                     theLog.output(subSystem::input, loggingLevel::Info, "grab on");
+                    //Grab release move to "home"
+                    Serial1.println("G01 X160 Y10 Z0 F2000");
                 } else {
                     digitalWrite(thePins.GrabRelaispin, LOW);
                     theLog.output(subSystem::input, loggingLevel::Info, "grab off");
@@ -129,11 +131,11 @@ void machineInputs::run() {
                 break;
             case inputStates::Zminus:
                 strcpy(stateTxt, "z-");
-                Serial1.println("$J=G91 G21 F1000 Z-1000");
+                Serial1.println("$J=G91 G21 F1000 Z1000");
                 break;
             case inputStates::Zplus:
                 strcpy(stateTxt, "z+");
-                Serial1.println("$J=G91 G21 F1000 Z1000");
+                Serial1.println("$J=G91 G21 F1000 Z-1000");
                 break;
 
             default:

@@ -37,16 +37,19 @@ void setup() {
 
     theInput.initialize();
     theLeds.setup();
-   
+
     delay(8000);
     Serial1.println("$H");
     delay(20000);
+    Serial1.println("G01 X160 Y10 Z0 F2000");
+
+  
 }
 
 void loop() {
     theInput.run();
     theLeds.run(theInput.getPosition());
-    //printHeartBeat();
+    // printHeartBeat();
 
     // echoSerial();
 }
