@@ -43,13 +43,10 @@ void machineInputs::run() {
         }
     }
 
-    /*
-    if (Locked == LOW) {
+    
+    if (Locked == HIGH) {
         nextPos = inputStates::locked;
-    } else
-    */
-
-    if (XPos == LOW) {
+    } else if (XPos == LOW) {
         nextPos = inputStates::Xplus;
     } else if (XNeg == LOW) {
         nextPos = inputStates::Xminus;
@@ -69,11 +66,9 @@ void machineInputs::run() {
 
     // the grab button
     bool nextGrabState = false;
-    
         if (Grab == LOW) {
             nextGrabState = true;  
         } 
-
     if (nextGrabState != theGrabState) {
         theGrabState = nextGrabState;
 

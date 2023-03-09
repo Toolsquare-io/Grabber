@@ -63,7 +63,7 @@ void ledmadness::changeState(inputStates newState) {
 
     switch (theState) {
         case inputStates::locked:
-            currentPalette  = RainbowColors_p;
+            currentPalette  = LavaColors_p;
             currentBlending = LINEARBLEND;
             break;
 
