@@ -24,4 +24,7 @@ class machineInputs {
     uint8_t grablevel             = 120;
     unsigned long runningdebounce = 500;
     unsigned long runningtimer    = 0;
+    unsigned long goHomeTimer = 0;
+    unsigned long goHomeTimeout = 5000;
+    bool isHome = false;
 };

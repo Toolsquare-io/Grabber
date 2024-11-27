@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <logging.h>
+#include "logging.h"
 #include "machineinputs.h"
 #include "pinmapping.h"
 #include "ledmadness.h"
@@ -27,10 +27,7 @@ void setup() {
     theLog.outputIsActive(true);
 
     // setting logginlevels
-    theLog.setLoggingLevel(0U, subSystem::general, loggingLevel::Debug);
-    theLog.setLoggingLevel(0U, subSystem::stepper, loggingLevel::Debug);
-    theLog.setLoggingLevel(0U, subSystem::input, loggingLevel::Debug);
-    theLog.setLoggingLevel(0U, subSystem::neopixels, loggingLevel::Debug);
+    theLog.setLoggingLevel(0U, loggingLevel::Debug);
 
     // setup start
     theLog.output(subSystem::general, loggingLevel::Info, "starting");        //
@@ -49,8 +46,6 @@ void setup() {
 void loop() {
     theInput.run();
     theLeds.run(theInput.getPosition());
-    // printHeartBeat();
-
     // echoSerial();
 }
 
