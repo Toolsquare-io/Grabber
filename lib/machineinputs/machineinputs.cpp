@@ -14,17 +14,13 @@ void machineInputs::initialize() {
     pinMode(thePins.TSlockpin, INPUT_PULLUP);
     pinMode(thePins.TSrunningpin, OUTPUT);
 
-    pinMode(thePins.ZButtonPin, INPUT_PULLUP);
-    pinMode(thePins.GrabButtonPin, INPUT_PULLUP);
+    pinMode(thePins.ZButtonPin, INPUT_PULLDOWN);
+    pinMode(thePins.GrabButtonPin, INPUT_PULLDOWN);
 
-    digitalWrite(thePins.GrabButtonLEDpin, HIGH);
-    digitalWrite(thePins.ZButtonLEDpin, HIGH);
-
-    pinMode(thePins.GrabButtonLEDpin, OUTPUT);
     pinMode(thePins.GrabRelaispin, OUTPUT);
-    pinMode(thePins.ZButtonLEDpin, OUTPUT);
-    pinMode(thePins.GrabPWMpin, OUTPUT);
-    digitalWrite(thePins.GrabPWMpin, grablevel);
+    digitalWrite(thePins.GrabRelaispin, LOW);
+    // pinMode(thePins.GrabPWMpin, OUTPUT);
+    // digitalWrite(thePins.GrabPWMpin, grablevel);
 };
 
 void machineInputs::run() {
@@ -37,6 +33,15 @@ void machineInputs::run() {
     int Grab    = digitalRead(thePins.GrabButtonPin);
 
     inputStates nextPos = inputStates::neutral;
+
+    if (theZButtonState != ZActive) {
+        theZButtonState = ZActive;
+        if (ZActive == HIGH) {
+            Serial.println("Z High");
+        } else {
+            Serial.println("Z LOW");
+        }
+    }
 
     if (Locked == HIGH) {
         nextPos = inputStates::locked;
@@ -59,40 +64,13 @@ void machineInputs::run() {
     }
 
     // the grab button
-    bool nextGrabState = false;
-
-    if (Grab == LOW) {
-        nextGrabState = true;
-        // Serial.print("grab is true");
-    } else {
-        // Serial.println("grab is false");
-    }
-
-    if (nextGrabState != theGrabState) {
-        theGrabState = nextGrabState;
-
-        switch (thePosition) {
-            case inputStates::locked:
-                digitalWrite(thePins.GrabRelaispin, LOW);
-                theLog.output(subSystem::input, loggingLevel::Info, "no grab, machine is locked");
-                break;
-
-            default:
-                if (theGrabState) {
-                    digitalWrite(thePins.GrabRelaispin, HIGH);
-                    theLog.output(subSystem::input, loggingLevel::Info, "grab on");
-                } else {
-                    digitalWrite(thePins.GrabRelaispin, LOW);
-                    theLog.output(subSystem::input, loggingLevel::Info, "grab off");
-                }
-                break;
-        }
-    }
+    digitalWrite(thePins.GrabRelaispin, !digitalRead(thePins.GrabButtonPin));
 
     // output
     bool nextRunning = true;
 
     if (nextPos != thePosition) {
+        isHome = false;
         char stateTxt[8];
         switch (nextPos) {
             case inputStates::locked:
@@ -101,33 +79,42 @@ void machineInputs::run() {
                 break;
             case inputStates::neutral:
                 strcpy(stateTxt, "neutral");
+                Serial1.write(0x85);
+                goHomeTimer = millis();
                 nextRunning = false;
-
                 break;
             case inputStates::Xminus:
                 strcpy(stateTxt, "x-");
+                Serial1.println("$J=G91 G21 F2000 X-1000");
                 break;
             case inputStates::Xplus:
                 strcpy(stateTxt, "x+");
+                Serial1.println("$J=G91 G21 F2000 X1000");
                 break;
             case inputStates::Yminus:
                 strcpy(stateTxt, "y-");
+                Serial1.println("$J=G91 G21 F2000 Y-1000");
                 break;
             case inputStates::Yplus:
                 strcpy(stateTxt, "y+");
+                Serial1.println("$J=G91 G21 F2000 Y1000");
                 break;
             case inputStates::Zminus:
                 strcpy(stateTxt, "z-");
+                Serial1.println("$J=G91 G21 F2000 Z1000");
                 break;
             case inputStates::Zplus:
                 strcpy(stateTxt, "z+");
+                Serial1.println("$J=G91 G21 F2000 Z-1000");
                 break;
 
             default:
                 theLog.output(subSystem::general, loggingLevel::Error, "unknown joystick state");
                 break;
         }
-        theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
+
+        Serial.println(stateTxt);
+        // theLog.output(subSystem::general, loggingLevel::Info, stateTxt);
         thePosition = nextPos;        // the switch!
 
         if (nextRunning != isRunning) {
@@ -137,13 +124,21 @@ void machineInputs::run() {
             isRunning = nextRunning;
 
             if (isRunning) {
-                theLog.output(subSystem::input, loggingLevel::Debug, "running");
+                // theLog.output(subSystem::input, loggingLevel::Debug, "running");
                 digitalWrite(thePins.TSrunningpin, HIGH);
             } else {
-                theLog.output(subSystem::input, loggingLevel::Debug, "idle");
+                // theLog.output(subSystem::input, loggingLevel::Debug, "idle");
                 digitalWrite(thePins.TSrunningpin, LOW);
             }
             //}
+        }
+    }
+
+    if (thePosition == inputStates::neutral && !isHome) {
+        theLog.output(subSystem::input, loggingLevel::Debug, "Neurtral and not Home");
+        if (millis() - goHomeTimer >= goHomeTimeout) {
+            Serial1.println("G01 X160 Y10 Z0 F2500");
+            isHome = true;
         }
     }
 };
@@ -155,53 +150,3 @@ inputStates machineInputs::getPosition() {
 bool machineInputs::grabState() {
     return theGrabState;
 };
-
-void machineInputs::setButtonLeds() {
-    // doesn't work because of the 3pin buttons....
-    /*
-    bool grabled = false;
-    switch (thePosition) {
-        case inputStates::locked:
-        case inputStates::neutral:
-            buttonBreathe();
-            break;
-
-        case inputStates::Xminus:
-        case inputStates::Xplus:
-            digitalWrite(thePins.ZButtonLEDpin, LOW);
-            grabled = true;
-            break;
-
-        case inputStates::Yminus:
-        case inputStates::Yplus:
-        case inputStates::Zminus:
-        case inputStates::Zplus:
-            digitalWrite(thePins.ZButtonLEDpin, HIGH);
-            grabled = true;
-            break;
-
-        default:
-            theLog.output(subSystem::input, loggingLevel::Error, "unknown buttonledstate");
-            break;
-    }
-    if (grabled) {
-        if (theGrabState) {
-            digitalWrite(thePins.GrabButtonLEDpin, LOW);
-        } else {
-            digitalWrite(thePins.GrabButtonLEDpin, HIGH);
-        }
-    }
-    */
-}
-
-void machineInputs::buttonBreathe() {
-    if (millis() - ledtimer >= ledpace) {
-        analogWrite(thePins.ZButtonLEDpin, ledlevel);
-        analogWrite(thePins.GrabButtonLEDpin, 255 - ledlevel);
-
-        if (ledlevel >= 255 || ledlevel <= 0) {
-            ledlevelincrement = -ledlevelincrement;
-        }
-        ledlevel += ledlevelincrement;
-    }
-}

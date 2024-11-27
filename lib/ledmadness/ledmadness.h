@@ -2,11 +2,11 @@
 #include "FastLED.h"
 #include "machineinputs.h"
 
-#define LED_PIN1 26
-#define LED_PIN2 25
+#define LED_PIN1 10
+#define LED_PIN2 11
 #define NUM_LEDS1 26 //bridge
 #define NUM_LEDS2 88
-#define UPDATES_PER_SECOND 100
+//#define UPDATES_PER_SECOND 10
 
 
 extern machineInputs theInputs;
@@ -25,10 +25,11 @@ class ledmadness {
 
     CRGB leds1[NUM_LEDS1];
     CRGB leds2[NUM_LEDS2];
+    CRGB leds3[1];
     inputStates theState;
     CRGBPalette16 currentPalette;
     TBlendType currentBlending;
-    unsigned long updatesPerSecond = 100;
+    unsigned long updatesPerSecond = 10;
 
     void redBreathe();
     void FillLEDsFromPaletteColors(uint8_t colorIndex);

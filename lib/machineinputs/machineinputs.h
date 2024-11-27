@@ -13,6 +13,7 @@ class machineInputs {
     bool isRunning;
     inputStates thePosition = inputStates::neutral;
     bool theGrabState       = false;
+    int theZButtonState     = LOW;
     void setButtonLeds();
     void buttonBreathe();
     unsigned long ledpace  = 50;
@@ -20,7 +21,10 @@ class machineInputs {
     uint8_t ledlevel       = 100;
     int ledlevelincrement  = 1;
     void grabcontroll();
-    uint8_t grablevel = 120;
+    uint8_t grablevel             = 120;
     unsigned long runningdebounce = 500;
-    unsigned long runningtimer = 0;
+    unsigned long runningtimer    = 0;
+    unsigned long goHomeTimer = 0;
+    unsigned long goHomeTimeout = 5000;
+    bool isHome = false;
 };
