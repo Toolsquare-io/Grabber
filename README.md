@@ -1,7 +1,7 @@
-![https://platformio.org/](https://camo.githubusercontent.com/8fc14af039bcce01d826030e0c74cdc8a8f84cadca809a95be0b6973db5dbbfb/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6275696c74253230776974682d706c6174666f726d696f2d6f72616e6765 "platformio")
-
 # Tha Grabber
-A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units. Here's the [project page](https://github.com/Toolsquare-io/Grabber/projects/1).
+A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units. 
+
+![Fusion render](https://github.com/Toolsquare-io/Grabber/blob/main/grabberheader.jpg)
 
 ## Timeline
 ### Deadline
@@ -10,7 +10,6 @@ A machine to show what we can do with our [Toolsquare](www.toolsquare.io) units.
 
 ### Build timeline
 * CAD approval -> 8th of April
-
 ---
 
 **Everything below is draft and could change, keep those affected in the loop!**
@@ -41,7 +40,7 @@ The full [BOM](https://docs.google.com/spreadsheets/d/1Js6a-A9pP3j60k_G_hthX2zwb
 * [Motors](https://www.amazon.nl/gp/product/B06Y2BSCL7/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ## CAD
-[The Fusion model](https://a360.co/3vmHt5T)
+[The Fusion model](https://a360.co/3V7IlZC)
 
 ## Inspirations
 [CoreXY](http://corexy.com/theory.html)
